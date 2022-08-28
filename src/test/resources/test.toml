@@ -1,0 +1,14 @@
+test = "Help"
+du = 13033333333335803.13123
+good = false
+infy = inf
+nanu = nan
+
+[testClass]
+className = "Echter Klassen Name"
+zahl = 4
+
+[arrayTester]
+#list = [true, false, false]
+array = [1, 2, 3]
+#Comment
