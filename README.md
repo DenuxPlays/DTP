@@ -8,4 +8,4 @@ TOML v1.0.0 specification.
 ### (main) Goals
 - [ ] provide simple `toToml()` and `fromToml()` methods to convert java objects to TOML and vice versa
 - [ ] support all TOML v1.0.0 features
-- [ ] support complext objetcs with deep inheritance hierarchies
+- [ ] support complex objetcs with deep inheritance hierarchies
