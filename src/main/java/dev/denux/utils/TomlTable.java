@@ -18,7 +18,7 @@ public class TomlTable {
     }
 
     public void put(Entry entry) {
-        if (get(entry.getKey()) == null) {
+        if (get(entry.getKey()) != null) {
             throw new TomlMapException("Key already exists: " + entry.getKey());
         }
         entries.add(entry);
@@ -28,7 +28,7 @@ public class TomlTable {
         if (get(key) != null) {
             throw new TomlMapException("Key already exists: " + key);
         }
-        entries.add(new Entry(key, value, type));
+        put(new Entry(key, value, type));
     }
 
     public void remove(String key) {

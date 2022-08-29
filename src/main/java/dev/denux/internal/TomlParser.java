@@ -5,7 +5,6 @@ import dev.denux.utils.TomlTable;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 
 //TODO add javadocs
@@ -53,7 +52,7 @@ public class TomlParser<T> {
         try {
             switch (entry.getDataType()) {
                 case STRING:
-                    field.set(object, value.toString().substring(1, value.toString().length() - 1));
+                    field.set(object, value.toString());
                     break;
                 case ARRAY:
                     handleArray(object, field, value);

@@ -2,6 +2,7 @@ package dev.denux.internal;
 
 import dev.denux.internal.entities.Toml;
 import dev.denux.internal.entities.TomlDataType;
+import dev.denux.utils.Constant;
 import dev.denux.utils.TomlTable;
 import dev.denux.utils.TypesUtil;
 
@@ -11,6 +12,7 @@ import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 //TODO add javadocs
@@ -30,7 +32,6 @@ public class TomlReader {
         BufferedReader reader = new BufferedReader(tomlReader);
         Set<TomlTable> tomlMaps = new HashSet<>();
         TomlTable tomlMap = new TomlTable(); //represents the current (master) table
-        int linecout = 0;
         for (String line : reader.lines().collect(Collectors.toList())) {
             if (line.startsWith("#")) {
                 //Cuz comment
@@ -45,7 +46,6 @@ public class TomlReader {
                 continue;
             }
             addEntryToTomlMap(tomlMap, line);
-            linecout++;
         }
         tomlMaps.add(tomlMap);
         String tomlString = reader.lines().collect(Collectors.joining("\n"));
@@ -58,6 +58,11 @@ public class TomlReader {
         String[] split = line.split("=");
         String key = split[0].trim();
         String value = split[1].trim();
+        Matcher matcher = Constant.STRING_REGEX.matcher(line);
+        if (matcher.find()) {
+            map.put(key, matcher.group(0), TomlDataType.STRING);
+            return;
+        }
         map.put(key, TypesUtil.convertType(value), TomlDataType.getDataType(value));
     }
 
