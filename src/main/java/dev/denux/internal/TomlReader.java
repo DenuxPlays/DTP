@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -57,8 +58,10 @@ public class TomlReader {
     private void addEntryToTomlMap(TomlTable map, String line) {
         String[] split = line.split("=");
         String key = split[0].trim();
+        key = key.replace("\"", "");
+        key = key.replace("'", "");
         String value = split[1].trim();
-        Matcher matcher = Constant.STRING_REGEX.matcher(line);
+        Matcher matcher = Constant.STRING_REGEX.matcher(value);
         if (matcher.find()) {
             map.put(key, matcher.group(0), TomlDataType.STRING);
             return;

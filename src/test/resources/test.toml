@@ -1,4 +1,4 @@
-test = "Help" # Test comment
+"test" = "Help" # Test comment
 du = 13033333333335803.13123
 good = false
 infy = inf
