@@ -76,6 +76,18 @@ public class TomlReader {
             map.put(key, RFC3339Util.parseTime(value).toString(), TomlDataType.TIME);
             return;
         }
+        if (value.startsWith("0x")|| value.startsWith("0b")) {
+            map.put(key, Long.parseLong(value.substring(2), 16), TomlDataType.NUMBER);
+            return;
+        }
+        if (value.startsWith("0o")) {
+            map.put(key, Long.parseLong(value.substring(2), 16), TomlDataType.NUMBER);
+            return;
+        }
+        if (value.startsWith("0b")) {
+            map.put(key, Long.parseLong(value.substring(2), 2), TomlDataType.NUMBER);
+            return;
+        }
         map.put(key, TypesUtil.convertType(value), TomlDataType.getDataType(value));
     }
 

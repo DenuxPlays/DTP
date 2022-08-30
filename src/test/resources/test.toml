@@ -5,6 +5,9 @@ infy = inf
 nanu = nan
 date = 1979-05-27T00:32:00.999999-07:00
 time = 00:32:00.999999
+oct = 0o755
+hex = 0xDEADBEEF
+bin = 0b11010110
 
 [testClass]
 className = "Echter Klassen Name"

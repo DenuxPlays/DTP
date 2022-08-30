@@ -15,6 +15,9 @@ public class TestObject {
     public double nanu;
     public LocalDateTime date;
     public LocalTime time;
+    public long hex;
+    public long oct;
+    public long bin;
 
     public static class TestClass {
         public String className;
