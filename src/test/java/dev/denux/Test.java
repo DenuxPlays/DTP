@@ -23,8 +23,8 @@ public class Test {
         assertEquals("Echter Klassen Name", object.testClass.className);
         assertEquals(4, object.testClass.zahl);
         assertArrayEquals(new byte[]{1, 2,3}, object.arrayTester.array);
-        System.out.println("object.date = " + object.date);
-        System.out.println("object.time = " + object.time);
+        assertEquals("1979-05-27T07:32:00.999", object.date.toString());
+        assertEquals("00:32:00.000999999", object.time.toString());
     }
 
     public static BufferedReader getTomlReader() throws Exception {
