@@ -73,5 +73,14 @@ public class TomlTable {
         public TomlDataType getDataType() {
             return dataType;
         }
+
+        @Override
+        public String toString() {
+            return "Entry{" +
+                    "key='" + key + '\'' +
+                    ", dataType=" + dataType +
+                    ", value=" + value +
+                    '}';
+        }
     }
 }

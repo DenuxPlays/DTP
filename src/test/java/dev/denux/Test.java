@@ -13,10 +13,8 @@ public class Test {
     }
 
 
-
     public static void test() throws Exception {
         TestObject object = new DTP().fromToml(getTomlReader(), TestObject.class);
-        System.out.println("object.test = " + object.test);
         assertEquals("Help", object.test);
         assertEquals(13033333333335803.13123, object.du);
         assertFalse(object.good);
@@ -25,6 +23,8 @@ public class Test {
         assertEquals("Echter Klassen Name", object.testClass.className);
         assertEquals(4, object.testClass.zahl);
         assertArrayEquals(new byte[]{1, 2,3}, object.arrayTester.array);
+        System.out.println("object.date = " + object.date);
+        System.out.println("object.time = " + object.time);
     }
 
     public static BufferedReader getTomlReader() throws Exception {

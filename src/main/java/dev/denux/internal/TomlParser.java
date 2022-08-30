@@ -5,6 +5,8 @@ import dev.denux.utils.TomlTable;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 //TODO add javadocs
@@ -71,6 +73,13 @@ public class TomlParser<T> {
                     break;
                 case BOOLEAN:
                     field.set(object, value);
+                    break;
+                case DATETIME:
+                    field.set(object, LocalDateTime.parse(value.toString()));
+                    break;
+                case TIME:
+                    field.set(object, LocalTime.parse(value.toString()));
+                    break;
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();

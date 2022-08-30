@@ -3,18 +3,15 @@ package dev.denux.internal.entities;
 import dev.denux.utils.TypesUtil;
 
 public enum TomlDataType {
-
     STRING,
-
     NUMBER,
     INFINITE_POSITIVE,
     INFINITE_NEGATIVE,
     NAN,
-
     BOOLEAN,
-
     ARRAY,
-    LIST;
+    DATETIME,
+    TIME;
 
     public static TomlDataType getDataType(String value) {
         if (TypesUtil.isNumber(value)) return NUMBER;

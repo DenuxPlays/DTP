@@ -3,6 +3,7 @@ package dev.denux.internal;
 import dev.denux.internal.entities.Toml;
 import dev.denux.internal.entities.TomlDataType;
 import dev.denux.utils.Constant;
+import dev.denux.utils.RFC3339Util;
 import dev.denux.utils.TomlTable;
 import dev.denux.utils.TypesUtil;
 
@@ -10,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -64,6 +64,16 @@ public class TomlReader {
         Matcher matcher = Constant.STRING_REGEX.matcher(value);
         if (matcher.find()) {
             map.put(key, matcher.group(0), TomlDataType.STRING);
+            return;
+        }
+        matcher = Constant.RFC3339_REGEX.matcher(value);
+        if (matcher.matches()) {
+            map.put(key, RFC3339Util.parseDateTime(value).toString(), TomlDataType.DATETIME);
+            return;
+        }
+        matcher = Constant.RFC3339_TIME_REGEX.matcher(value);
+        if (matcher.matches()) {
+            map.put(key, RFC3339Util.parseTime(value).toString(), TomlDataType.TIME);
             return;
         }
         map.put(key, TypesUtil.convertType(value), TomlDataType.getDataType(value));

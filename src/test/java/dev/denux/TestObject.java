@@ -1,5 +1,8 @@
 package dev.denux;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class TestObject {
 
     public final TestClass testClass = new TestClass();
@@ -10,6 +13,8 @@ public class TestObject {
     public String test;
     public double infy;
     public double nanu;
+    public LocalDateTime date;
+    public LocalTime time;
 
     public static class TestClass {
         public String className;
