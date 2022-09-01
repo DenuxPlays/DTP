@@ -1,7 +1,6 @@
-package dev.denux.utils;
+package dev.denux.internal.entities;
 
-import dev.denux.exception.TomlMapException;
-import dev.denux.internal.entities.TomlDataType;
+import dev.denux.exception.TomlTableException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,14 +18,14 @@ public class TomlTable {
 
     public void put(Entry entry) {
         if (get(entry.getKey()) != null) {
-            throw new TomlMapException("Key already exists: " + entry.getKey());
+            throw new TomlTableException("Key already exists: " + entry.getKey());
         }
         entries.add(entry);
     }
 
     public void put(String key, Object value, TomlDataType type) {
         if (get(key) != null) {
-            throw new TomlMapException("Key already exists: " + key);
+            throw new TomlTableException("Key already exists: " + key);
         }
         put(new Entry(key, value, type));
     }

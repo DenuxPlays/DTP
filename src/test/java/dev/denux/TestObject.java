@@ -18,6 +18,7 @@ public class TestObject {
     public long hex;
     public long oct;
     public long bin;
+    public String multiline;
 
     public static class TestClass {
         public String className;

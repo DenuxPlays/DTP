@@ -1,7 +1,7 @@
 package dev.denux.internal;
 
 import dev.denux.utils.MiscUtil;
-import dev.denux.utils.TomlTable;
+import dev.denux.internal.entities.TomlTable;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;

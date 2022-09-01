@@ -8,7 +8,12 @@ time = 00:32:00.999999
 oct = 0o755
 hex = 0xDEADBEEF
 bin = 0b11010110
-
+multiline ="""
+some value
+    with tabs
+and some more stupid whitespaces\" and this
+        kind of stuff
+"""
 [testClass]
 className = "Echter Klassen Name"
 zahl = 4

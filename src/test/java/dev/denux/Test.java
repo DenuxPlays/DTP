@@ -8,8 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Test {
 
+    private static final String multiline = "\n" +
+            "some value\n" +
+            "    with tabs\n" +
+            "and some more stupid whitespaces\\\" and this\n" +
+            "        kind of stuff\n";
+
     public static void main(String[] args) throws Exception {
         test();
+        //tester();
     }
 
 
@@ -27,7 +34,8 @@ public class Test {
         assertEquals("00:32:00.000999999", object.time.toString());
         assertEquals(3735928559L, object.hex);
         assertEquals(1877L, object.oct);
-        assertEquals(285278480L, object.bin);
+        assertEquals(214L, object.bin);
+        assertEquals(multiline, object.multiline);
     }
 
     public static BufferedReader getTomlReader() throws Exception {
