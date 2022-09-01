@@ -135,7 +135,6 @@ public class TomlReader {
         boolean endDefined = false;
         for (int i = 1; i < chars.length; i++) {
             char c = chars[i];
-            char previousChar = chars[i-1];
             if (i == 1 && Constant.STRING_INDICATORS.contains(c)) {
                 for (char ch : chars) {
                     charList.add(ch);
@@ -242,11 +241,6 @@ public class TomlReader {
         private String getKey() {
             return key;
         }
-    }
-
-    private enum State {
-        STRING,
-        MULTILINE_STRING,
     }
 
     public Set<TomlTable> getTomlMaps() {
