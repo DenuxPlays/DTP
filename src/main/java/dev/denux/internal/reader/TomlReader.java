@@ -1,4 +1,4 @@
-package dev.denux.internal;
+package dev.denux.internal.reader;
 
 import dev.denux.exception.TomlReadException;
 import dev.denux.internal.entities.Toml;
@@ -39,6 +39,9 @@ public class TomlReader {
         TomlTable tomlTable = new TomlTable(); //represents the current (master) table
 
         MultilineReader multilineReader = null;
+        boolean isMultilineArray = false;
+        StringBuilder multilineArrayBuilder = new StringBuilder();
+        String multilineArrayKey = "";
         for (String line : tomlReader.lines().collect(Collectors.toList())) {
             if (line.trim().startsWith("#")) {
                 continue;
@@ -74,12 +77,76 @@ public class TomlReader {
                 }
                 continue;
             }
+            if (isArray(value)) {
+                tomlTable.put(key, TypesUtil.convertType(value), TomlDataType.ARRAY);
+                continue;
+            }
+            if (isMultilineArray(value) || isMultilineArray) {
+                if (!isMultilineArray) {
+                    isMultilineArray = true;
+                    multilineArrayBuilder = new StringBuilder();
+                    multilineArrayKey = key;
+                } else {
+                    value = line;
+                }
+                multilineArrayBuilder.append(value);
+                if (value.endsWith("]")) {
+                    isMultilineArray = false;
+                    tomlTable.put(multilineArrayKey, multilineArrayBuilder.toString(), TomlDataType.ARRAY);
+                }
+            }
             addEntryToTomlTable(tomlTable, key, value);
         }
         tomlTables.add(tomlTable);
         String tomlString = tomlReader.lines().collect(Collectors.joining("\n"));
         tomlReader.close();
         return new Toml(tomlString, tomlTables);
+    }
+
+    private String[] parseLine(String line) {
+        String[] split = line.split("=");
+        String key = split[0].trim();
+        key = key.replace("\"", "");
+        key = key.replace("'", "");
+        String value = Arrays.stream(split).skip(1).collect(Collectors.joining()).trim();
+
+        //remove comment
+        boolean mustBeEscaped = false;
+        boolean escaped = false;
+        char escapeCharacter = ' ';
+        char[] chars = value.toCharArray();
+        List<Character> charList = new ArrayList<>();
+        int i = 0;
+        if (isMultilineString(value)) {
+            i = 3;
+        }
+        for (; i < chars.length; i++) {
+            char c = chars[i];
+            char previousChar = i == 0 ? ' ' : chars[i - 1];
+            if (i == 0) {
+                if (Constant.STRING_INDICATORS.contains(c)) {
+                    escapeCharacter = c;
+                    mustBeEscaped = true;
+                    continue;
+                }
+            }
+            if (mustBeEscaped && c == escapeCharacter && previousChar != '\\') {
+                escaped = true;
+                break;
+            }
+            if (!mustBeEscaped && c == '#') {
+                //ending the loop cuz a comment is there
+                break;
+            }
+            charList.add(c);
+        }
+        if (mustBeEscaped && !escaped) {
+            throw new TomlReadException("Invalid toml file. Line: " + line);
+        }
+        if (!charList.isEmpty()) {
+            value = new String(ArrayUtil.listToCharArray(charList)).trim();
+        }
+        return new String[]{key, value};
     }
 
     private void addEntryToTomlTable(TomlTable table, String key, String value) {
@@ -140,7 +207,6 @@ public class TomlReader {
                     charList.add(ch);
                 }
                 charList.remove(0);
-                System.out.println("String key | table");
                 return handleString(ArrayUtil.listToCharArray(charList), c);
             }
             if (c == ']') {
@@ -155,15 +221,6 @@ public class TomlReader {
         return new String(ArrayUtil.listToCharArray(charList));
     }
 
-    private String[] parseLine(String line) {
-        String[] split = line.split("=");
-        String key = split[0].trim();
-        key = key.replace("\"", "");
-        key = key.replace("'", "");
-        String value = Arrays.stream(split).skip(1).collect(Collectors.joining()).trim();
-        return new String[]{key, value};
-    }
-
     private boolean isString(String value) {
         if (value.length() == 0) return false;
         return Constant.STRING_INDICATORS.contains(value.charAt(0)) && !isMultilineString(value);
@@ -172,10 +229,19 @@ public class TomlReader {
     private boolean isMultilineString(String value) {
         char[] chars = value.toCharArray();
         if (chars.length < 3) return false;
-        if (chars[0] != chars[1] && chars[1] != chars[2]) {
+        if (chars[0] != chars[1] || chars[1] != chars[2]) {
             return false;
         }
-        return Constant.STRING_INDICATORS.contains(chars[0]);
+        return Constant.STRING_INDICATORS.contains(value.charAt(0));
+    }
+
+    private boolean isArray(String value) {
+        if (value.length() == 0) return false;
+        return value.charAt(0) == '[' && value.charAt(value.length() - 1) == ']' && !isMultilineArray(value);
+    }
+
+    private boolean isMultilineArray(String value) {
+        return value.charAt(0) == '[' && value.charAt(value.length() - 1) != ']';
     }
 
     private boolean isTable(String line) {
@@ -205,8 +271,7 @@ public class TomlReader {
 
         private void readOneLine(char[] chars) {
             List<Character> charList = new ArrayList<>();
-            int i;
-            for (i = 0; i < chars.length; i++) {
+            for (int i = 0; i < chars.length; i++) {
                 char c = chars[i];
                 char previousChar = i == 0 ? ' ' : chars[i - 1];
                 //checking if it could be the end of the multiline string
@@ -220,8 +285,7 @@ public class TomlReader {
                             multilineEnd = true;
                             break;
                         }
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
-                    }
+                    } catch (ArrayIndexOutOfBoundsException ignored) {}
                 }
                 if (globalIndex > 2) {
                     charList.add(c);

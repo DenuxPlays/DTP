@@ -1,5 +1,6 @@
-package dev.denux.internal;
+package dev.denux.internal.parser;
 
+import dev.denux.internal.reader.TomlReader;
 import dev.denux.utils.MiscUtil;
 import dev.denux.internal.entities.TomlTable;
 

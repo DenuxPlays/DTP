@@ -11,5 +11,4 @@ public class Constant {
     public static final Pattern RFC3339_TIME_REGEX = Pattern.compile("^(\\d{2}):(\\d{2}):?(\\d{2})?(\\.\\d*)?");
 
     public static final List<Character> STRING_INDICATORS = Arrays.asList('"', '\'');
-
 }

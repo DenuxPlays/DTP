@@ -1,9 +1,9 @@
 "test" = "Help" # Test comment
 du = 13033333333335803.13123
-good = false
+good = false # test comment
 infy = inf
 nanu = nan
-date = 1979-05-27T00:32:00.999999-07:00
+date = 1979-05-27T00:32:00.999999-07:00 # test comment
 time = 00:32:00.999999
 oct = 0o755
 hex = 0xDEADBEEF
