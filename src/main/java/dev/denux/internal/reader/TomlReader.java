@@ -161,15 +161,15 @@ public class TomlReader {
             return;
         }
         if (value.startsWith("0x")) {
-            table.put(key, Long.parseLong(value.substring(2), 16), TomlDataType.NUMBER);
+            table.put(key, String.valueOf(Long.parseLong(value.substring(2), 16)), TomlDataType.NUMBER);
             return;
         }
         if (value.startsWith("0o")) {
-            table.put(key, Long.parseLong(value.substring(2), 16), TomlDataType.NUMBER);
+            table.put(key, String.valueOf(Long.parseLong(value.substring(2), 8)), TomlDataType.NUMBER);
             return;
         }
         if (value.startsWith("0b")) {
-            table.put(key, Long.parseLong(value.substring(2), 2), TomlDataType.NUMBER);
+            table.put(key, String.valueOf(Long.parseLong(value.substring(2), 2)), TomlDataType.NUMBER);
             return;
         }
         table.put(key, TypesUtil.convertType(value), TomlDataType.getDataType(value));

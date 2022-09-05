@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 
 //TODO add javadocs
@@ -73,7 +74,7 @@ public class TomlParser<T> {
                     field.set(object, Double.NEGATIVE_INFINITY);
                     break;
                 case BOOLEAN:
-                    field.set(object, value);
+                    field.set(object, Boolean.parseBoolean(value.toString()));
                     break;
                 case DATETIME:
                     field.set(object, LocalDateTime.parse(value.toString()));
@@ -167,11 +168,12 @@ public class TomlParser<T> {
             throw new IllegalArgumentException("Field type must be primitive");
         }
         int i = 0;
-        List<Object> list = (List<Object>) values;
+        String s = values.toString();
+        List<Object> list = Arrays.asList(s.substring(1, s.length() - 1).split(","));
         if (byte.class.equals(type)) {
             byte[] array = new byte[list.size()];
             for (Object obj : list) {
-                Array.set(array, i, Byte.valueOf(obj.toString()));
+                Array.set(array, i, Byte.valueOf(obj.toString().trim()));
                 i++;
             }
             field.set(object, array);
@@ -222,7 +224,7 @@ public class TomlParser<T> {
 
     private void parseNumber(T object, Field field, Object value) throws IllegalAccessException {
         Class<?> type = MiscUtil.warpPrimitives(field.getType());
-        Number number = (Number) value;
+        Number number = Double.valueOf(value.toString());
         if (Byte.class.equals(type)) {
             if (number.doubleValue() > Byte.MAX_VALUE) {
                 throw new NumberFormatException(String.format("Value: %s is too large for Byte", number));

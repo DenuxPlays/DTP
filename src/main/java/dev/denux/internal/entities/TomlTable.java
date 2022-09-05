@@ -23,7 +23,7 @@ public class TomlTable {
         entries.add(entry);
     }
 
-    public void put(String key, Object value, TomlDataType type) {
+    public void put(String key, String value, TomlDataType type) {
         if (get(key) != null) {
             throw new TomlTableException("Key already exists: " + key);
         }
@@ -49,9 +49,9 @@ public class TomlTable {
     public static class Entry {
         private final String key;
         private final TomlDataType dataType;
-        private Object value;
+        private String value;
 
-        public Entry(String key, Object value, TomlDataType dataType) {
+        public Entry(String key, String value, TomlDataType dataType) {
             this.key = key;
             this.value = value;
             this.dataType = dataType;
@@ -61,11 +61,11 @@ public class TomlTable {
             return key;
         }
 
-        public Object getValue() {
+        public String getValue() {
             return value;
         }
 
-        public void setValue(Object value) {
+        public void setValue(String value) {
             this.value = value;
         }
 

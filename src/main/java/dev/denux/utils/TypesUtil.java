@@ -7,21 +7,21 @@ public class TypesUtil {
     private TypesUtil() {
     }
 
-    public static Object convertType(String value) {
+    public static String convertType(String value) {
         if (isNumber(value)) {
-            return Double.parseDouble(value);
+            return String.valueOf(Double.parseDouble(value));
         }
         if (value.equals("true") || value.equals("false")) {
-            return Boolean.parseBoolean(value);
+            return String.valueOf(Boolean.parseBoolean(value));
         }
         if (value.equals("inf") || value.equals("+inf")) {
-            return Double.POSITIVE_INFINITY;
+            return String.valueOf(Double.POSITIVE_INFINITY);
         }
         if (value.equals("-inf")) {
-            return Double.NEGATIVE_INFINITY;
+            return String.valueOf(Double.NEGATIVE_INFINITY);
         }
         if (value.equals("nan") || value.equals("-nan") || value.equals("+nan")) {
-            return Double.NaN;
+            return String.valueOf(Double.NaN);
         }
         if (value.startsWith("[") && value.endsWith("]")) {
             List<String> list = new ArrayList<>();
@@ -30,7 +30,7 @@ public class TypesUtil {
                 String listItem = obj.trim();
                 list.add(listItem);
             }
-            return list;
+            return list.toString();
         }
         return value;
     }

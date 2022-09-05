@@ -33,7 +33,7 @@ public class Test {
         assertEquals("1979-05-27T07:32:00.999", object.date.toString());
         assertEquals("00:32:00.000999999", object.time.toString());
         assertEquals(3735928559L, object.hex);
-        assertEquals(1877L, object.oct);
+        assertEquals(493L, object.oct);
         assertEquals(214L, object.bin);
         assertEquals(multiline, object.multiline);
     }
