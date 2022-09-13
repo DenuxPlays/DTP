@@ -4,12 +4,9 @@ import dev.denux.internal.reader.TomlReader;
 import dev.denux.utils.MiscUtil;
 import dev.denux.internal.entities.TomlTable;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
 
 //TODO add javadocs
 public class TomlParser<T> {
@@ -59,7 +56,7 @@ public class TomlParser<T> {
                     field.set(object, value.toString());
                     break;
                 case ARRAY:
-                    handleArray(object, field, value);
+                    new ArrayParser<>(object, field).parseArray(value);
                     break;
                 case NUMBER:
                     parseNumber(object, field, value);
@@ -85,140 +82,6 @@ public class TomlParser<T> {
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void handleArray(T object, Field field, Object values) throws IllegalAccessException {
-        if (!field.getType().isArray()) {
-            throw new IllegalArgumentException("Field is not an array");
-        }
-        if (field.getType().getComponentType().isPrimitive()) {
-            parsePrimitiveArray(object, field, values);
-        } else {
-            parseObjectArray(object, field, values);
-        }
-    }
-
-    private void parseObjectArray(T object, Field field, Object values) throws IllegalAccessException {
-        Class<?> type = field.getType().getComponentType();
-        List<Object> list = (List<Object>) values;
-        int i = 0;
-        if (Byte.class.equals(type)) {
-            Byte[] array = new Byte[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Byte.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (Short.class.equals(type)) {
-            Short[] array = new Short[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Short.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (Integer.class.equals(type)) {
-            Integer[] array = new Integer[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Integer.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (Long.class.equals(type)) {
-            Long[] array = new Long[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Long.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (Float.class.equals(type)) {
-            Float[] array = new Float[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Float.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (Double.class.equals(type)) {
-            Double[] array = new Double[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Double.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (String.class.equals(type)) {
-            String[] array = new String[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, obj.toString());
-                i++;
-            }
-            field.set(object, array);
-        } else if (Boolean.class.equals(type)) {
-            Boolean[] array = new Boolean[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Boolean.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        }
-    }
-
-    private void parsePrimitiveArray(T object, Field field, Object values) throws IllegalAccessException {
-        Class<?> type = field.getType().getComponentType();
-        if (!type.isPrimitive()) {
-            throw new IllegalArgumentException("Field type must be primitive");
-        }
-        int i = 0;
-        String s = values.toString();
-        List<Object> list = Arrays.asList(s.substring(1, s.length() - 1).split(","));
-        if (byte.class.equals(type)) {
-            byte[] array = new byte[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Byte.valueOf(obj.toString().trim()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (short.class.equals(type)) {
-            short[] array = new short[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Short.parseShort(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (int.class.equals(type)) {
-            int[] array = new int[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Integer.parseInt(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (long.class.equals(type)) {
-            long[] array = new long[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Long.parseLong(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (float.class.equals(type)) {
-            float[] array = new float[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Float.parseFloat(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (double.class.equals(type)) {
-            double[] array = new double[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Double.parseDouble(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
-        } else if (boolean.class.equals(type)) {
-            boolean[] array = new boolean[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Boolean.parseBoolean(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
         }
     }
 

@@ -1,12 +1,14 @@
 package dev.denux;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Test {
+public class TestClass {
 
     private static final String multiline = "\n" +
             "some value\n" +
@@ -15,12 +17,12 @@ public class Test {
             "        kind of stuff\n";
 
     public static void main(String[] args) throws Exception {
-        test();
-        //tester();
+        new TestClass().test();
     }
 
 
-    public static void test() throws Exception {
+    @Test
+    public void test() throws Exception {
         TestObject object = new DTP().fromToml(getTomlReader(), TestObject.class);
         assertEquals("Help", object.test);
         assertEquals(13033333333335803.13123, object.du);
@@ -39,7 +41,7 @@ public class Test {
     }
 
     public static BufferedReader getTomlReader() throws Exception {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader() == null ? Thread.currentThread().getContextClassLoader() : Test.class.getClassLoader();
+        ClassLoader loader = Thread.currentThread().getContextClassLoader() == null ? Thread.currentThread().getContextClassLoader() : TestClass.class.getClassLoader();
         return new BufferedReader(new InputStreamReader(Objects.requireNonNull(loader.getResource("test.toml")).openStream()));
     }
 }
