@@ -59,7 +59,14 @@ public class TomlReader {
             String key = split[0];
             String value = split[1];
             //string and multiline string stuff
-            char stringIndicator = multilineReader == null ? value.charAt(0) : multilineReader.stringIndicator;
+            char stringIndicator;
+            if (isMultilineArray) {
+                stringIndicator = ' ';
+            } else if (multilineReader == null) {
+                stringIndicator = value.charAt(0);
+            } else {
+                stringIndicator = multilineReader.stringIndicator;
+            }
             if (isString(value) && multilineReader == null) {
                 tomlTable.put(key, handleString(value.toCharArray(), stringIndicator), TomlDataType.STRING);
                 continue;
@@ -241,7 +248,13 @@ public class TomlReader {
     }
 
     private boolean isMultilineArray(String value) {
-        return value.charAt(0) == '[' && value.charAt(value.length() - 1) != ']';
+        if (value.length() == 0) {
+            return false;
+        } else if (value.charAt(0) == '[') {
+            return value.charAt(value.length() - 1) != ']';
+        } else {
+            return false;
+        }
     }
 
     private boolean isTable(String line) {

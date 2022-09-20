@@ -27,5 +27,6 @@ public class TestObject {
 
     public static class ArrayTester {
         public byte[] array;
+        public String[] mArray;
     }
 }

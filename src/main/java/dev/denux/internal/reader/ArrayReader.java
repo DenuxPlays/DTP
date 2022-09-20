@@ -20,8 +20,10 @@ public class ArrayReader {
                     continue;
                 }
                 if (c == ']') {
-                    list.add(val.toString().trim());
-                    val = new StringBuilder();
+                    if (!val.toString().isEmpty()) {
+                        list.add(val.toString().trim());
+                        val = new StringBuilder();
+                    }
                     continue;
                 }
             }

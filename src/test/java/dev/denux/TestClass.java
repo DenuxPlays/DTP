@@ -32,6 +32,7 @@ public class TestClass {
         assertEquals("Echter Klassen Name", object.testClass.className);
         assertEquals(4, object.testClass.zahl);
         assertArrayEquals(new byte[]{1, 2, 3}, object.arrayTester.array);
+        assertArrayEquals(new String[]{"Test1", "Test2"}, object.arrayTester.mArray);
         assertEquals("1979-05-27T07:32:00.999", object.date.toString());
         assertEquals("00:32:00.000999999", object.time.toString());
         assertEquals(3735928559L, object.hex);

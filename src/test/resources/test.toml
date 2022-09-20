@@ -21,4 +21,7 @@ zahl = 4
 [arrayTester]
 #list = [true, false, false]
 array = [1, 2, 3]
+mArray = ["Test1",
+"Test2",
+]
 #Comment
