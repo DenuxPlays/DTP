@@ -40,7 +40,7 @@ public class TomlReader {
 
         MultilineReader multilineReader = null;
         boolean isMultilineArray = false;
-        StringBuilder multilineArrayBuilder = new StringBuilder();
+        List<String> arrayValues = new ArrayList<>();
         String multilineArrayKey = "";
         for (String line : tomlReader.lines().collect(Collectors.toList())) {
             if (line.trim().startsWith("#")) {
@@ -78,22 +78,22 @@ public class TomlReader {
                 continue;
             }
             if (isArray(value)) {
-                tomlTable.put(key, TypesUtil.convertType(value), TomlDataType.ARRAY);
+                tomlTable.put(key, ArrayReader.readArray(value), TomlDataType.ARRAY);
                 continue;
             }
             if (isMultilineArray(value) || isMultilineArray) {
                 if (!isMultilineArray) {
                     isMultilineArray = true;
-                    multilineArrayBuilder = new StringBuilder();
                     multilineArrayKey = key;
                 } else {
                     value = line;
                 }
-                multilineArrayBuilder.append(value);
-                if (value.endsWith("]")) {
+                arrayValues.addAll(ArrayReader.readArray(value));
+                if (ArrayReader.endOfMultilineArray(line)) {
                     isMultilineArray = false;
-                    tomlTable.put(multilineArrayKey, multilineArrayBuilder.toString(), TomlDataType.ARRAY);
+                    tomlTable.put(multilineArrayKey, arrayValues, TomlDataType.ARRAY);
                 }
+                continue;
             }
             addEntryToTomlTable(tomlTable, key, value);
         }
