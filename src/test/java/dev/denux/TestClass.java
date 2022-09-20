@@ -38,6 +38,7 @@ public class TestClass {
         assertEquals(3735928559L, object.hex);
         assertEquals(493L, object.oct);
         assertEquals(214L, object.bin);
+        assertEquals(TestEnum.SUPER, object.enumTest);
         assertEquals(multiline, object.multiline);
     }
 

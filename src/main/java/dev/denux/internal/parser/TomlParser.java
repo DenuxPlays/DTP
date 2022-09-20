@@ -1,10 +1,12 @@
 package dev.denux.internal.parser;
 
+import dev.denux.exception.TomlParseException;
 import dev.denux.internal.reader.TomlReader;
 import dev.denux.utils.MiscUtil;
 import dev.denux.internal.entities.TomlTable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -36,9 +38,7 @@ public class TomlParser<T> {
                     } else {
                         field = classOfT.getDeclaredField(key);
                     }
-                } catch (NoSuchFieldException e) {
-                    System.out.println("Skipping field: " + entry.getKey());
-                    e.printStackTrace();
+                } catch (NoSuchFieldException ignored) {
                     continue;
                 }
                 setFieldData(field, object, entry);
@@ -53,6 +53,16 @@ public class TomlParser<T> {
         try {
             switch (entry.getDataType()) {
                 case STRING:
+                    if (field.getType().isEnum()) {
+                        try {
+                            value = field.getType().getDeclaredMethod("valueOf", String.class).invoke(object,
+                                    value.toString());
+                        } catch (InvocationTargetException | NoSuchMethodException ignored) {
+                            throw new TomlParseException("Could not get method \"value\" of from enum class.");
+                        }
+                        field.set(object, value);
+                        break;
+                    }
                     field.set(object, value.toString());
                     break;
                 case ARRAY:

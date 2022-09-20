@@ -8,6 +8,7 @@ time = 00:32:00.999999
 oct = 0o755
 hex = 0xDEADBEEF
 bin = 0b11010110
+enumTest = "SUPER"
 multiline ="""
 some value
     with tabs
