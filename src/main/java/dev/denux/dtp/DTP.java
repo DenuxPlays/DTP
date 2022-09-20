@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
+import java.nio.file.Path;
 
 //TODO implement
 //  - add javadocs
@@ -23,7 +24,11 @@ public class DTP {
         return new TomlWriter(source).writeToString();
     }
 
-    public void writeTomlToFile(Object source, File file, OpenOption... openOption) throws IOException {
-        Files.write(file.toPath(), toToml(source).getBytes(StandardCharsets.UTF_8), openOption);
+    public void writeTomlToFile(Object source, File file, OpenOption... openOptions) throws IOException {
+        writeTomlToFile(source, file.toPath(), openOptions);
+    }
+
+    public void writeTomlToFile(Object source, Path path, OpenOption... openOptions) throws IOException {
+        Files.write(path, toToml(source).getBytes(StandardCharsets.UTF_8), openOptions);
     }
 }
