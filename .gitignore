@@ -4,3 +4,6 @@
 #Gradle
 .gradle/
 build/
+
+#Test
+test.toml

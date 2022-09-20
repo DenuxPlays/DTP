@@ -3,7 +3,11 @@ package dev.denux.dtp;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.nio.file.StandardOpenOption;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,12 +21,13 @@ public class TestClass {
             "        kind of stuff\n";
 
     public static void main(String[] args) throws Exception {
-        new TestClass().test();
+        new TestClass().testParse();
+        new TestClass().testWrite();
     }
 
 
     @Test
-    public void test() throws Exception {
+    public void testParse() throws Exception {
         TestObject object = new DTP().fromToml(getTomlReader(), TestObject.class);
         assertEquals("Help", object.test);
         assertEquals(13033333333335803.13123, object.du);
@@ -40,6 +45,15 @@ public class TestClass {
         assertEquals(214L, object.bin);
         assertEquals(TestEnum.SUPER, object.enumTest);
         assertEquals(multiline, object.multiline);
+    }
+
+    @Test
+    public void testWrite() {
+        try {
+            new DTP().writeTomlToFile(new WriteObject(), new File("test.toml"), StandardOpenOption.CREATE);
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
+        }
     }
 
     public static BufferedReader getTomlReader() throws Exception {

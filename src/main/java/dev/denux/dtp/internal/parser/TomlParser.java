@@ -3,7 +3,7 @@ package dev.denux.dtp.internal.parser;
 import dev.denux.dtp.exception.TomlParseException;
 import dev.denux.dtp.internal.entities.TomlTable;
 import dev.denux.dtp.internal.reader.TomlReader;
-import dev.denux.dtp.utils.MiscUtil;
+import dev.denux.dtp.utils.PrimitiveUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -96,7 +96,7 @@ public class TomlParser<T> {
     }
 
     private void parseNumber(T object, Field field, Object value) throws IllegalAccessException {
-        Class<?> type = MiscUtil.warpPrimitives(field.getType());
+        Class<?> type = PrimitiveUtil.wrap(field.getType());
         Number number = Double.valueOf(value.toString());
         if (Byte.class.equals(type)) {
             if (number.doubleValue() > Byte.MAX_VALUE) {
