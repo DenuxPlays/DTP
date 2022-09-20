@@ -23,5 +23,6 @@ zahl = 4
 array = [1, 2, 3]
 mArray = ["Test1",
 "Test2",
+    #Comment
 ]
 #Comment

@@ -16,6 +16,9 @@ public class ArrayReader {
             char c = chars[i];
             char previousChar = i == 0 ? ' ' : chars[i - 1];
             if (!needEscaping) {
+                if (c == '#') {
+                    continue;
+                }
                 if (c == '[') {
                     continue;
                 }
@@ -50,7 +53,9 @@ public class ArrayReader {
                 val = new StringBuilder();
                 continue;
             }
-            val.append(c);
+            if (c != ' ') {
+                val.append(c);
+            }
         }
         return list;
     }
