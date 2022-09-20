@@ -1,4 +1,4 @@
-package dev.denux;
+package dev.denux.dtp;
 
 import org.junit.jupiter.api.Test;
 

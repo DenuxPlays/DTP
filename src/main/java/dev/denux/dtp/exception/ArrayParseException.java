@@ -1,4 +1,4 @@
-package dev.denux.exception;
+package dev.denux.dtp.exception;
 
 public class ArrayParseException extends TomlException {
 

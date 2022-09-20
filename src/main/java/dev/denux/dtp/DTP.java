@@ -1,7 +1,7 @@
-package dev.denux;
+package dev.denux.dtp;
 
-import dev.denux.internal.parser.TomlParser;
-import dev.denux.internal.reader.TomlReader;
+import dev.denux.dtp.internal.reader.TomlReader;
+import dev.denux.dtp.internal.parser.TomlParser;
 
 import java.io.Reader;
 

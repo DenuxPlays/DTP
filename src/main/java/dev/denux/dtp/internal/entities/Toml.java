@@ -1,4 +1,4 @@
-package dev.denux.internal.entities;
+package dev.denux.dtp.internal.entities;
 
 import java.util.Collection;
 import java.util.HashSet;

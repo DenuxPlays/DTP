@@ -1,6 +1,6 @@
-package dev.denux.internal.entities;
+package dev.denux.dtp.internal.entities;
 
-import dev.denux.exception.TomlTableException;
+import dev.denux.dtp.exception.TomlTableException;
 
 import java.util.HashSet;
 import java.util.Set;

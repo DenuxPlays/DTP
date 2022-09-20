@@ -1,4 +1,4 @@
-package dev.denux;
+package dev.denux.dtp;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

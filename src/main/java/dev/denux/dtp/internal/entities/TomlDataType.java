@@ -1,6 +1,6 @@
-package dev.denux.internal.entities;
+package dev.denux.dtp.internal.entities;
 
-import dev.denux.utils.TypesUtil;
+import dev.denux.dtp.utils.TypesUtil;
 
 public enum TomlDataType {
     STRING,

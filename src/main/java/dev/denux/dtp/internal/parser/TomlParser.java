@@ -1,9 +1,9 @@
-package dev.denux.internal.parser;
+package dev.denux.dtp.internal.parser;
 
-import dev.denux.exception.TomlParseException;
-import dev.denux.internal.reader.TomlReader;
-import dev.denux.utils.MiscUtil;
-import dev.denux.internal.entities.TomlTable;
+import dev.denux.dtp.exception.TomlParseException;
+import dev.denux.dtp.internal.entities.TomlTable;
+import dev.denux.dtp.internal.reader.TomlReader;
+import dev.denux.dtp.utils.MiscUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

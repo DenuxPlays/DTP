@@ -1,6 +1,6 @@
-package dev.denux.internal.parser;
+package dev.denux.dtp.internal.parser;
 
-import dev.denux.exception.ArrayParseException;
+import dev.denux.dtp.exception.ArrayParseException;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;

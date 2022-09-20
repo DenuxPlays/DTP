@@ -1,4 +1,4 @@
-package dev.denux.utils;
+package dev.denux.dtp.utils;
 
 public class MiscUtil {
 

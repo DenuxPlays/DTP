@@ -1,13 +1,13 @@
-package dev.denux.internal.reader;
+package dev.denux.dtp.internal.reader;
 
-import dev.denux.exception.TomlReadException;
-import dev.denux.internal.entities.Toml;
-import dev.denux.internal.entities.TomlDataType;
-import dev.denux.utils.ArrayUtil;
-import dev.denux.utils.Constant;
-import dev.denux.utils.RFC3339Util;
-import dev.denux.internal.entities.TomlTable;
-import dev.denux.utils.TypesUtil;
+import dev.denux.dtp.internal.entities.Toml;
+import dev.denux.dtp.internal.entities.TomlDataType;
+import dev.denux.dtp.internal.entities.TomlTable;
+import dev.denux.dtp.utils.RFC3339Util;
+import dev.denux.dtp.exception.TomlReadException;
+import dev.denux.dtp.utils.ArrayUtil;
+import dev.denux.dtp.utils.Constant;
+import dev.denux.dtp.utils.TypesUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;

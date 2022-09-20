@@ -1,6 +1,6 @@
-package dev.denux.internal.reader;
+package dev.denux.dtp.internal.reader;
 
-import dev.denux.utils.Constant;
+import dev.denux.dtp.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
