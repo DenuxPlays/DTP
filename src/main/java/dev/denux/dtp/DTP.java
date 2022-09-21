@@ -19,6 +19,15 @@ public class DTP {
 
     public <T> T fromToml(Reader toml, Class<T> clazzOfT) {
         TomlReader tomlReader = new TomlReader(toml);
+        return fromToml(tomlReader, clazzOfT);
+    }
+
+    public <T> T fromToml(String tomlString, Class<T> clazzOfT) {
+        TomlReader tomlReader = new TomlReader(tomlString);
+        return fromToml(tomlReader, clazzOfT);
+    }
+
+    public <T> T fromToml(TomlReader tomlReader, Class<T> clazzOfT) {
         try {
             return new TomlParser<>(clazzOfT).parse(tomlReader);
         } catch (ReflectiveOperationException exception) {

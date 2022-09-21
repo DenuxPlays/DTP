@@ -29,8 +29,16 @@ public class TomlReader {
     public TomlReader(Reader reader) {
         try {
             toml = read(stringToList(readToString(reader)));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
+        }
+    }
+
+    public TomlReader(String tomlString) {
+        try {
+            this.toml = read(stringToList(tomlString));
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
         }
     }
 
