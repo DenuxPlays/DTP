@@ -1,9 +1,6 @@
 package dev.denux.dtp;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class WriteObject {
 
@@ -18,5 +15,6 @@ public class WriteObject {
     private static class WriteClass {
         private final String subClassTest = "This tests something, can you believe it?";
         private final Instant instant = Instant.now();
+        private final int[] intArray = new int[]{1, 2, 3};
     }
 }

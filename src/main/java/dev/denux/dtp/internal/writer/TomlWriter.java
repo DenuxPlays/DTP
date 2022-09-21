@@ -5,6 +5,7 @@ import dev.denux.dtp.utils.PrimitiveUtil;
 
 import java.lang.reflect.Field;
 import java.time.temporal.TemporalAccessor;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +47,12 @@ public class TomlWriter {
                     handleOther(field, fieldObj, builder);
                 } else if (Boolean.class.equals(clazz)) {
                     handleOther(field, fieldObj, builder);
+                } else if (field.getType().isArray()) {
+                    if (field.getType().getComponentType().isPrimitive()) {
+                        handlePrimitiveArray(field, fieldObj, field.getType().getComponentType(), builder);
+                    } else {
+                        handleOther(field, Arrays.toString((String[]) fieldObj), builder);
+                    }
                 } else if (typeIsClazz(clazz)) {
                     subClasses.put(clazz, field);
                     continue;
@@ -106,5 +113,21 @@ public class TomlWriter {
             fieldObject = "-inf";
         }
         handleOther(field, fieldObject, builder);
+    }
+
+    private void handlePrimitiveArray(Field field, Object fieldObject, Class<?> clazz, StringBuilder builder) {
+        if (byte.class.equals(clazz)) {
+            handleOther(field, Arrays.toString((byte[]) fieldObject), builder);
+        } else if (short.class.equals(clazz)) {
+            handleOther(field, Arrays.toString((short[]) fieldObject), builder);
+        } else if (int.class.equals(clazz)) {
+            handleOther(field, Arrays.toString((int[]) fieldObject), builder);
+        } else if (long.class.equals(clazz)) {
+            handleOther(field, Arrays.toString((long[]) fieldObject), builder);
+        } else if (float.class.equals(clazz)) {
+            handleOther(field, Arrays.toString((float[]) fieldObject), builder);
+        } else {
+            handleOther(field, Arrays.toString((double[]) fieldObject), builder);
+        }
     }
 }
