@@ -4,6 +4,7 @@ import dev.denux.dtp.exception.TomlWriteException;
 import dev.denux.dtp.utils.PrimitiveUtil;
 
 import java.lang.reflect.Field;
+import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,8 @@ public class TomlWriter {
                     handleString(field, fieldObj, builder);
                 } else if (Number.class.isAssignableFrom(clazz)) {
                     handleNumber(field, fieldObj, builder);
+                } else if (Temporal.class.isAssignableFrom(clazz)) {
+                    handleOther(field, fieldObj, builder);
                 } else if (Boolean.class.equals(clazz)) {
                     handleOther(field, fieldObj, builder);
                 } else if (typeIsClazz(clazz)) {

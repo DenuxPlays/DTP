@@ -1,5 +1,7 @@
 package dev.denux.dtp;
 
+import java.time.LocalDate;
+
 public class WriteObject {
 
     private final WriteClass writeClass = new WriteClass();
@@ -12,5 +14,6 @@ public class WriteObject {
 
     private static class WriteClass {
         private final String subClassTest = "This tests something, can you believe it?";
+        private final LocalDate instant = LocalDate.now();
     }
 }
