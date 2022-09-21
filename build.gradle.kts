@@ -11,7 +11,7 @@ plugins {
 
 group = "dev.denux"
 val archivesBaseName = "dtp"
-version = "1.0.0"
+version = "1.0.0-alpha.1"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

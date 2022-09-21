@@ -1,6 +1,6 @@
 package dev.denux.dtp.internal.parser;
 
-import dev.denux.dtp.exception.TomlParseException;
+import dev.denux.dtp.exception.parse.TomlParseException;
 import dev.denux.dtp.internal.entities.TomlTable;
 import dev.denux.dtp.internal.reader.TomlReader;
 import dev.denux.dtp.utils.PrimitiveUtil;

@@ -1,6 +1,6 @@
 package dev.denux.dtp.internal.writer;
 
-import dev.denux.dtp.exception.TomlWriteException;
+import dev.denux.dtp.exception.write.TomlWriteException;
 import dev.denux.dtp.utils.PrimitiveUtil;
 
 import java.lang.reflect.Field;
