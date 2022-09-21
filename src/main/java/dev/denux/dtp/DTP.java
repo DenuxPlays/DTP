@@ -1,5 +1,6 @@
 package dev.denux.dtp;
 
+import dev.denux.dtp.exception.TomlParseException;
 import dev.denux.dtp.internal.reader.TomlReader;
 import dev.denux.dtp.internal.parser.TomlParser;
 import dev.denux.dtp.internal.writer.TomlWriter;
@@ -16,8 +17,14 @@ import java.nio.file.Path;
 //  - add javadocs
 public class DTP {
 
-    public <T> T fromToml(Reader toml, Class<T> clazzOfT) throws ReflectiveOperationException {
-        return new TomlParser<>(clazzOfT).parse(new TomlReader(toml));
+    public <T> T fromToml(Reader toml, Class<T> clazzOfT) {
+        TomlReader tomlReader = new TomlReader(toml);
+        try {
+            return new TomlParser<>(clazzOfT).parse(tomlReader);
+        } catch (ReflectiveOperationException exception) {
+            throw new TomlParseException("Could not parse the toml to the object.\n " +
+                    "Do .getCause() for more information.", exception);
+        }
     }
 
     public String toToml(Object source) {
