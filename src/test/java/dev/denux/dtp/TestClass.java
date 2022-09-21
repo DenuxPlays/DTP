@@ -30,6 +30,7 @@ public class TestClass {
     public void testParse() throws Exception {
         TestObject object = new DTP().fromToml(getTomlReader(), TestObject.class);
         assertEquals("Help", object.test);
+        assertEquals("123", object.testClass.number);
         assertEquals(13033333333335803.13123, object.du);
         assertFalse(object.good);
         assertEquals(Double.POSITIVE_INFINITY, object.infy);

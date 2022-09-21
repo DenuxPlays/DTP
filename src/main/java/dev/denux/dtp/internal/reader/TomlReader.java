@@ -172,6 +172,9 @@ public class TomlReader {
         if (!charList.isEmpty()) {
             value = new String(ArrayUtil.listToCharArray(charList)).trim();
         }
+        if (mustBeEscaped) {
+            value = escapeCharacter + value + escapeCharacter;
+        }
         return new String[]{key, value};
     }
 
@@ -311,7 +314,6 @@ public class TomlReader {
                     try {
                         char c2 = chars[i + 1];
                         char c3 = chars[i + 2];
-                        System.out.println(c2 + " " + c3);
                         //actually checking if it is the end or not
                         if (c2 == stringIndicator && c3 == stringIndicator) {
                             multilineEnd = true;

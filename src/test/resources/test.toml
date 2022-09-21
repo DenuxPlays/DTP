@@ -18,6 +18,7 @@ and some more stupid whitespaces\" and this
 [testClass]
 className = "Echter Klassen Name"
 zahl = 4
+number = "123"
 
 [arrayTester]
 #list = [true, false, false]

@@ -24,6 +24,7 @@ public class TestObject {
     public static class TestClass {
         public String className;
         public int zahl;
+        public String number;
     }
 
     public static class ArrayTester {
