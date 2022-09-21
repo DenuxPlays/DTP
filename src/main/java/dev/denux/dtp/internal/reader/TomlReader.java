@@ -28,13 +28,25 @@ public class TomlReader {
 
     public TomlReader(Reader reader) {
         try {
-            toml = read(new BufferedReader(reader));
+            toml = read(stringToList(readToString(reader)));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    private synchronized Toml read(BufferedReader tomlReader) throws IOException {
+    private synchronized String readToString(Reader reader) throws IOException {
+        BufferedReader tomlReader = new BufferedReader(reader);
+        String lines = tomlReader.lines().collect(Collectors.joining("\n"));
+        reader.close();
+        tomlReader.close();
+        return lines;
+    }
+
+    private List<String> stringToList(String lines) {
+        return Arrays.asList(lines.split("\n"));
+    }
+
+    private Toml read(List<String> lines) throws IOException {
         Set<TomlTable> tomlTables = new HashSet<>();
         TomlTable tomlTable = new TomlTable(); //represents the current (master) table
 
@@ -42,7 +54,7 @@ public class TomlReader {
         boolean isMultilineArray = false;
         List<String> arrayValues = new ArrayList<>();
         String multilineArrayKey = "";
-        for (String line : tomlReader.lines().collect(Collectors.toList())) {
+        for (String line : lines) {
             if (line.trim().startsWith("#")) {
                 continue;
             }
@@ -105,8 +117,7 @@ public class TomlReader {
             addEntryToTomlTable(tomlTable, key, value);
         }
         tomlTables.add(tomlTable);
-        String tomlString = tomlReader.lines().collect(Collectors.joining("\n"));
-        tomlReader.close();
+        String tomlString = String.join("\n", lines);
         return new Toml(tomlString, tomlTables);
     }
 
