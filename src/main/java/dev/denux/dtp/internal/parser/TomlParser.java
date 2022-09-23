@@ -15,14 +15,17 @@ public class TomlParser<T> {
 
     private final Class<T> classOfT;
     private final T object;
+    private final TomlReader tomlReader;
 
-    public TomlParser(Class<T> classOfT) throws ReflectiveOperationException {
+    public TomlParser(Class<T> classOfT, TomlReader tomlReader) throws ReflectiveOperationException {
         object = classOfT.newInstance();
         this.classOfT = classOfT;
+        this.tomlReader = tomlReader;
     }
 
-    public T parse(TomlReader reader) throws ReflectiveOperationException {
-        for (TomlTable tomlMap : reader.getTomlMaps()) {
+    @SuppressWarnings("unchecked")
+    public T parse() throws ReflectiveOperationException {
+        for (TomlTable tomlMap : tomlReader.getTomlMaps()) {
             String tableName = tomlMap.getTableName();
             for (TomlTable.Entry entry : tomlMap.getEntries()) {
                 String key = entry.getKey();
@@ -66,7 +69,7 @@ public class TomlParser<T> {
                     field.set(object, value.toString());
                     break;
                 case ARRAY:
-                    new ArrayParser<>(object, field).parseArray(value);
+                    new ArrayParser<>(object, field, tomlReader).parseArray(value);
                     break;
                 case NUMBER:
                     parseNumber(object, field, value);

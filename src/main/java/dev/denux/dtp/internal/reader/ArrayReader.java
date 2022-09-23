@@ -2,13 +2,11 @@ package dev.denux.dtp.internal.reader;
 
 import dev.denux.dtp.utils.Constant;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ArrayReader {
 
-    public static List<String> readArray(String value) {
-        List<String> list = new ArrayList<>();
+    public final StringBuilder builder = new StringBuilder();
+
+    public ArrayReader readArray(String value) {
         char[] chars = value.toCharArray();
         boolean needEscaping = false;
         StringBuilder val = new StringBuilder();
@@ -19,16 +17,6 @@ public class ArrayReader {
                 if (c == '#') {
                     continue;
                 }
-                if (c == '[') {
-                    continue;
-                }
-                if (c == ']') {
-                    if (!val.toString().isEmpty()) {
-                        list.add(val.toString().trim());
-                        val = new StringBuilder();
-                    }
-                    continue;
-                }
             }
             if (Constant.STRING_INDICATORS.contains(c)) {
                 if (previousChar == '\\') {
@@ -36,28 +24,25 @@ public class ArrayReader {
                     continue;
                 }
                 if (!needEscaping) {
-                    if (!val.toString().isEmpty()) {
-                        list.add(val.toString());
-                        val = new StringBuilder();
-                    } else {
-                        needEscaping = true;
-                    }
-                } else {
-                    list.add(val.toString());
-                    val = new StringBuilder();
+                    needEscaping = true;
                 }
+                val.append(c);
                 continue;
             }
             if (c == ',' && !needEscaping && previousChar != '\"') {
-                list.add(val.toString().trim());
-                val = new StringBuilder();
+                val.append(c);
                 continue;
             }
             if (c != ' ') {
                 val.append(c);
             }
         }
-        return list;
+        builder.append(val);
+        return this;
+    }
+
+    public String getString() {
+        return builder.toString();
     }
 
     public static boolean endOfMultilineArray(String line) {

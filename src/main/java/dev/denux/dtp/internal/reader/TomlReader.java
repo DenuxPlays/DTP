@@ -15,8 +15,10 @@ import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class TomlReader {
 
     private final Toml toml;
+    private final Map<Integer, ArrayReader> arrayReaderMap = new HashMap<>();
 
     public TomlReader(Reader reader) {
         try {
@@ -59,8 +62,7 @@ public class TomlReader {
         TomlTable tomlTable = new TomlTable(); //represents the current (master) table
 
         MultilineReader multilineReader = null;
-        boolean isMultilineArray = false;
-        List<String> arrayValues = new ArrayList<>();
+        ArrayReader arrayReader = null;
         String multilineArrayKey = "";
         for (String line : lines) {
             if (line.trim().startsWith("#")) {
@@ -80,7 +82,7 @@ public class TomlReader {
             String value = split[1];
             //string and multiline string stuff
             char stringIndicator;
-            if (isMultilineArray) {
+            if (arrayReader != null) {
                 stringIndicator = ' ';
             } else if (multilineReader == null) {
                 stringIndicator = value.charAt(0);
@@ -105,20 +107,26 @@ public class TomlReader {
                 continue;
             }
             if (isArray(value)) {
-                tomlTable.put(key, ArrayReader.readArray(value), TomlDataType.ARRAY);
+                ArrayReader reader = new ArrayReader();
+                reader.readArray(value);
+                int size = arrayReaderMap.size();
+                arrayReaderMap.put(size, reader);
+                tomlTable.put(key, size, TomlDataType.ARRAY);
                 continue;
             }
-            if (isMultilineArray(value) || isMultilineArray) {
-                if (!isMultilineArray) {
-                    isMultilineArray = true;
+            if (isMultilineArray(value) || arrayReader != null) {
+                if (arrayReader == null) {
+                    arrayReader = new ArrayReader();
                     multilineArrayKey = key;
                 } else {
                     value = line;
                 }
-                arrayValues.addAll(ArrayReader.readArray(value));
+                arrayReader.readArray(value);
                 if (ArrayReader.endOfMultilineArray(line)) {
-                    isMultilineArray = false;
-                    tomlTable.put(multilineArrayKey, arrayValues, TomlDataType.ARRAY);
+                    int size = arrayReaderMap.size();
+                    arrayReaderMap.put(size, arrayReader);
+                    tomlTable.put(multilineArrayKey, size, TomlDataType.ARRAY);
+                    arrayReader = null;
                 }
                 continue;
             }
@@ -347,5 +355,9 @@ public class TomlReader {
 
     public Toml getToml() {
         return toml;
+    }
+
+    public ArrayReader getArrayReaderByMapKey(int mapKey) {
+        return arrayReaderMap.get(mapKey);
     }
 }

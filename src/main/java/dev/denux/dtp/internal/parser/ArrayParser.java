@@ -1,34 +1,63 @@
 package dev.denux.dtp.internal.parser;
 
 import dev.denux.dtp.exception.parse.ArrayParseException;
+import dev.denux.dtp.internal.reader.ArrayReader;
+import dev.denux.dtp.internal.reader.TomlReader;
+import dev.denux.dtp.utils.ArrayUtil;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 public class ArrayParser<T> {
     private final T object;
     private final Field field;
+    private final TomlReader tomlReader;
 
-    protected ArrayParser(T object, Field field) {
+    protected ArrayParser(T object, Field field, TomlReader tomlReader) {
         this.object = object;
         this.field = field;
+        this.tomlReader = tomlReader;
     }
 
     public void parseArray(Object values) {
+
+        Class<?> cType = field.getType();
+        while (cType.isArray()) {
+            cType = cType.getComponentType();
+        }
+        boolean isPrimitive = cType.isPrimitive();
+        if (isPrimitive) {
+            try {
+                parsePrimitiveArray(values, field.getType().getComponentType(), null);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                throw new ArrayParseException("Could not parse object array");
+            }
+        } else {
+            try {
+                parseObjectArray(values, field.getType().getComponentType(), null);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                throw new ArrayParseException("Could not parse object array");
+            }
+            return;
+        }
+
         if (!field.getType().isArray()) {
             throw new IllegalArgumentException("Field is not an array");
         }
         if (field.getType().getComponentType().isPrimitive()) {
             try {
-                parsePrimitiveArray(values);
+                parsePrimitiveArray(values, field.getType(), null);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 throw new ArrayParseException("Could not parse primitive type array");
             }
         } else {
             try {
-                parseObjectArray(values);
+                parseObjectArray(values, field.getType().getComponentType(), null);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 throw new ArrayParseException("Could not parse object array");
@@ -36,17 +65,22 @@ public class ArrayParser<T> {
         }
     }
 
-    private void parseObjectArray(Object values) throws IllegalAccessException {
-        Class<?> type = field.getType().getComponentType();
-        List<Object> list = getObjectList(values);
+    private void parseObjectArray(Object values, Class<?> type, ArrayReader arrayReader) throws IllegalAccessException {
+        if (arrayReader == null) {
+            int arrayReaderId =  Integer.parseInt(values.toString());
+            arrayReader = tomlReader.getArrayReaderByMapKey(arrayReaderId);
+        }
+        if (type.getComponentType() != null) {
+            parsePrimitiveArray(object, type.getComponentType(), arrayReader);
+            return;
+        }
+
+        String string = arrayReader.getString();
+        List<String> list = ArrayUtil.stringToObjectArray(string, type, null);
         int i = 0;
         if (Byte.class.equals(type)) {
-            Byte[] array = new Byte[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Byte.valueOf(obj.toString()));
-                i++;
-            }
-            field.set(object, array);
+            System.out.println(Arrays.toString(ArrayUtil.listToObjectArray(list)));
+            field.set(object, ArrayUtil.listToByteArray(list));
         } else if (Short.class.equals(type)) {
             Short[] array = new Short[list.size()];
             for (Object obj : list) {
@@ -99,17 +133,22 @@ public class ArrayParser<T> {
         }
     }
 
-    private void parsePrimitiveArray(Object values) throws IllegalAccessException {
-        Class<?> type = field.getType().getComponentType();
-        List<Object> list = getObjectList(values);
+    private void parsePrimitiveArray(Object values, Class<?> type, ArrayReader arrayReader) throws IllegalAccessException {
+        if (arrayReader == null) {
+            int arrayReaderId =  Integer.parseInt(values.toString());
+            arrayReader = tomlReader.getArrayReaderByMapKey(arrayReaderId);
+        }
+        if (type.getComponentType() != null) {
+            parsePrimitiveArray(object, type.getComponentType(), arrayReader);
+            return;
+        }
+
+        String string = arrayReader.getString();
+        List<String> list = ArrayUtil.stringToObjectArray(string, type, null);
         int i = 0;
         if (byte.class.equals(type)) {
-            byte[] array = new byte[list.size()];
-            for (Object obj : list) {
-                Array.set(array, i, Byte.valueOf(obj.toString().trim()));
-                i++;
-            }
-            field.set(object, array);
+            System.out.println(Arrays.toString(ArrayUtil.listToObjectArray(list)));
+            field.set(object, ArrayUtil.listToObjectArray(list));
         } else if (short.class.equals(type)) {
             short[] array = new short[list.size()];
             for (Object obj : list) {
@@ -153,9 +192,5 @@ public class ArrayParser<T> {
             }
             field.set(object, array);
         }
-    }
-
-    private List<Object> getObjectList(Object values) {
-        return (List<Object>) values;
     }
 }

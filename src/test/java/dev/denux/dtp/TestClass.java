@@ -37,7 +37,7 @@ public class TestClass {
         assertEquals(Double.NaN, object.nanu);
         assertEquals("Echter Klassen Name", object.testClass.className);
         assertEquals(4, object.testClass.zahl);
-        assertArrayEquals(new byte[]{1, 2, 3}, object.arrayTester.array);
+        assertArrayEquals(new Byte[]{1, 2, 3}, object.arrayTester.array);
         assertArrayEquals(new String[]{"Test1", "Test2"}, object.arrayTester.mArray);
         assertEquals("1979-05-27T07:32:00.999", object.date.toString());
         assertEquals("00:32:00.000999999", object.time.toString());
@@ -46,6 +46,7 @@ public class TestClass {
         assertEquals(214L, object.bin);
         assertEquals(TestEnum.SUPER, object.enumTest);
         assertEquals(multiline, object.multiline);
+        System.out.println("object.arrayTester.twoArray = " + object.arrayTester.twoArray);
     }
 
     @Test

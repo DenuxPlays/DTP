@@ -29,7 +29,7 @@ public class DTP {
 
     public <T> T fromToml(TomlReader tomlReader, Class<T> clazzOfT) {
         try {
-            return new TomlParser<>(clazzOfT).parse(tomlReader);
+            return new TomlParser<>(clazzOfT, tomlReader).parse();
         } catch (ReflectiveOperationException exception) {
             throw new TomlParseException("Could not parse the toml to the object.\n " +
                     "Do .getCause() for more information.", exception);

@@ -2,6 +2,7 @@ package dev.denux.dtp.internal.entities;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public final class Toml {
