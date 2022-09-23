@@ -16,5 +16,6 @@ public class WriteObject {
         private final String subClassTest = "This tests something, can you believe it?";
         private final Instant instant = Instant.now();
         private final int[] intArray = new int[]{1, 2, 3};
+        private final float[][] doubleIntArray = new float[][]{{2F,3F,4F}, {3F,4F,5F}};
     }
 }

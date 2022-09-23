@@ -12,4 +12,14 @@ public class ArrayUtil {
         }
         return chars;
     }
+
+    public static void addPrimitiveArrayToList(Object object, Class<?> clazz, List<Object> list) {
+        if (clazz.getComponentType() != null) {
+            if (!clazz.getComponentType().isPrimitive()) {
+                addPrimitiveArrayToList(object, clazz.getComponentType(), list);
+            } else {
+                list.add(object);
+            }
+        }
+    }
 }

@@ -1,12 +1,15 @@
 package dev.denux.dtp.internal.writer;
 
 import dev.denux.dtp.exception.write.TomlWriteException;
+import dev.denux.dtp.utils.ArrayUtil;
 import dev.denux.dtp.utils.PrimitiveUtil;
 
 import java.lang.reflect.Field;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,17 +51,25 @@ public class TomlWriter {
                 } else if (Boolean.class.equals(clazz)) {
                     handleOther(field, fieldObj, builder);
                 } else if (field.getType().isArray()) {
-                    if (field.getType().getComponentType().isPrimitive()) {
-                        handlePrimitiveArray(field, fieldObj, field.getType().getComponentType(), builder);
-                    } else {
-                        handleOther(field, Arrays.toString((String[]) fieldObj), builder);
+                    Class<?> cType = field.getType();
+                    String arrayAsString;
+                    while (cType.isArray()) {
+                        cType = cType.getComponentType();
                     }
+                    boolean isPrimitive = cType.isPrimitive();
+
+                    if (isPrimitive) {
+                        arrayAsString = buildPrimitiveArray(fieldObj, field.getType());
+                    } else {
+                        arrayAsString = Arrays.deepToString((Object[]) fieldObj);
+                    }
+                    handleOther(field, arrayAsString, builder);
                 } else if (typeIsClazz(clazz)) {
                     subClasses.put(clazz, field);
                     continue;
                 }
-            } catch (IllegalAccessException ignored) {
-                ignored.printStackTrace();
+            } catch (IllegalAccessException exception) {
+                exception.printStackTrace();
             }
             if (i != fields.length - 1) {
                 builder.append("\n");
@@ -77,8 +88,8 @@ public class TomlWriter {
                     builder.append(new TomlWriter(field.get(object)).writeToString());
                 }
             }
-        } catch (IllegalAccessException ignored) {
-            ignored.printStackTrace();
+        } catch (IllegalAccessException exception) {
+            exception.printStackTrace();
         }
         return builder.toString();
     }
@@ -115,19 +126,9 @@ public class TomlWriter {
         handleOther(field, fieldObject, builder);
     }
 
-    private void handlePrimitiveArray(Field field, Object fieldObject, Class<?> clazz, StringBuilder builder) {
-        if (byte.class.equals(clazz)) {
-            handleOther(field, Arrays.toString((byte[]) fieldObject), builder);
-        } else if (short.class.equals(clazz)) {
-            handleOther(field, Arrays.toString((short[]) fieldObject), builder);
-        } else if (int.class.equals(clazz)) {
-            handleOther(field, Arrays.toString((int[]) fieldObject), builder);
-        } else if (long.class.equals(clazz)) {
-            handleOther(field, Arrays.toString((long[]) fieldObject), builder);
-        } else if (float.class.equals(clazz)) {
-            handleOther(field, Arrays.toString((float[]) fieldObject), builder);
-        } else {
-            handleOther(field, Arrays.toString((double[]) fieldObject), builder);
-        }
+    private String buildPrimitiveArray(Object fieldObject, Class<?> clazz) {
+        List<Object> list = new ArrayList<>();
+        ArrayUtil.addPrimitiveArrayToList(fieldObject, clazz, list);
+        return Arrays.deepToString(list.toArray());
     }
 }
