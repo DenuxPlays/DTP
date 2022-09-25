@@ -38,7 +38,7 @@ public class SimpleValueParsers {
             }
             StringBuilder sb = new StringBuilder();
             boolean quoting = false;
-            while (true) {
+            while (idx[0] < chars.length) {
                 char ch = chars[idx[0]++];
                 if (!quoting) {
                     if (ch == quoteType) {
@@ -63,7 +63,7 @@ public class SimpleValueParsers {
     private static SimpleValueParser primitiveParserToSimpleValueParser(PrimitiveParser parser) {
         return (chars, idx) -> {
             StringBuilder sb = new StringBuilder();
-            while (true) {
+            while (idx[0] < chars.length) {
                 char ch = chars[idx[0]++];
                 if (ch == ']' || ch == ',') {
                     idx[0]--;

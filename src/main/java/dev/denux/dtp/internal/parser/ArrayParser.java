@@ -54,7 +54,7 @@ public class ArrayParser<T> {
                 throw new IllegalArgumentException();
             }
             List<Object> resultList = new ArrayList<>();
-            while (true) {
+            while (idx[0] < chars.length) {
                 char ch = chars[idx[0]++];
                 if (ch == '[') {
                     idx[0]--;
