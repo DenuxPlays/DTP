@@ -6,7 +6,7 @@ public class ArrayReader {
 
     public final StringBuilder builder = new StringBuilder();
 
-    public ArrayReader readArray(String value) {
+    public void readArray(String value) {
         char[] chars = value.toCharArray();
         boolean needEscaping = false;
         StringBuilder val = new StringBuilder();
@@ -37,8 +37,7 @@ public class ArrayReader {
                 val.append(c);
             }
         }
-        builder.append(val);
-        return this;
+        builder.append(val.toString().trim());
     }
 
     public String getString() {
