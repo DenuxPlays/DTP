@@ -1,31 +1,50 @@
-"test" = "Help" # Test comment
-du = 13033333333335803.13123
-good = false # test comment
-infy = inf
-nanu = nan
-date = 1979-05-27T00:32:00.999999-07:00 # test comment
-time = 00:32:00.999999
-oct = 0o755
-hex = 0xDEADBEEF
-bin = 0b11010110
-enumTest = "SUPER"
-multiline ="""
+"stringKey" = "Quoted key."
+normalString = "Testing a normal string."
+multilineString = """
 some value
     with tabs
 and some more stupid whitespaces\" and this
         kind of stuff
 """
+'singleQuotes' = 'Some single quotes.'
+
+trueBoolean = true
+falseBoolean = false
+
+testEnum = "SUPER"
+
 [testClass]
 className = "Echter Klassen Name"
 zahl = 4
 number = "123"
 
 [arrayTester]
-#list = [true, false, false]
 array = [1, 2, 3]
-mArray = ["Test1",
+stringArray = ["Test1",
 "Test2",
     #Comment
 ]
-twoArray = [[3,2,1], [1,2,3]]
+twoDimensionalArray = [[3,2,1], [1,2,3]]
+primitiveObjectArray = [3424, 234]
 #Comment
+
+[numberTester]
+aByte = 120
+aShort = 2_34
+anInt = 1_000
+aLong = -99999232
+aFloat = -5E-2
+aDouble = 6.626e-34
+
+hex = 0x8EC84
+oct = 0o755
+bin = 0b11010110
+
+infinity = inf
+negativInfinity = -inf
+notANumber = nan
+
+[dateTimeTester]
+dateTime = 1979-05-27T00:32:00.999999-07:00 # test comment
+time = 00:32:00.999999
+instant = 1979-05-27

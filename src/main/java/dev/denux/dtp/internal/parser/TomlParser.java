@@ -100,19 +100,24 @@ public class TomlParser<T> {
 
     private void parseNumber(T object, Field field, Object value) throws IllegalAccessException {
         Class<?> type = PrimitiveUtil.wrap(field.getType());
-        Number number = Double.valueOf(value.toString());
+        Number number;
+        if (value.toString().contains(".")) {
+            number = Double.valueOf(value.toString());
+        } else {
+            number = Long.valueOf(value.toString());
+        }
         if (Byte.class.equals(type)) {
-            if (number.doubleValue() > Byte.MAX_VALUE) {
+            if (number.longValue() > Byte.MAX_VALUE) {
                 throw new NumberFormatException(String.format("Value: %s is too large for Byte", number));
             }
             field.set(object, number.byteValue());
         } else if (Short.class.equals(type)) {
-            if (number.doubleValue() > Short.MAX_VALUE) {
+            if (number.longValue() > Short.MAX_VALUE) {
                 throw new NumberFormatException(String.format("Value: %s is too large for Short", number));
             }
             field.set(object, number.shortValue());
         } else if (Integer.class.equals(type)) {
-            if (number.doubleValue() > Integer.MAX_VALUE) {
+            if (number.longValue() > Integer.MAX_VALUE) {
                 throw new NumberFormatException(String.format("Value: %s is too large for Integer", number));
             }
             field.set(object, number.intValue());

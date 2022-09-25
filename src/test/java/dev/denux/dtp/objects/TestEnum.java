@@ -1,4 +1,4 @@
-package dev.denux.dtp;
+package dev.denux.dtp.objects;
 
 public enum TestEnum {
     SUPER

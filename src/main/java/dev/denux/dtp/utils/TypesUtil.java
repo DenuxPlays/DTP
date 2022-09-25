@@ -9,6 +9,7 @@ public class TypesUtil {
 
     public static Object convertType(String value) {
         if (isNumber(value)) {
+            value = value.replace("_", "");
             return Double.parseDouble(value);
         }
         if (value.equals("true") || value.equals("false")) {
@@ -37,6 +38,7 @@ public class TypesUtil {
 
     public static boolean isNumber(String value) {
         try {
+            value = value.replace("_", "");
             Double.valueOf(value);
             return true;
         } catch (NumberFormatException e) {
