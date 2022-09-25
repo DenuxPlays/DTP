@@ -37,7 +37,11 @@ public class DTP {
     }
 
     public String toToml(Object source) {
-        return new TomlWriter(source).writeToString();
+        return toToml(new TomlWriter(source));
+    }
+
+    public String toToml(TomlWriter writer) {
+        return writer.writeToString();
     }
 
     public void writeTomlToFile(Object source, File file, OpenOption... openOptions) throws IOException {
