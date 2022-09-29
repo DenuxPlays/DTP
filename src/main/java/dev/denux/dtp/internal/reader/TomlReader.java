@@ -142,7 +142,7 @@ public class TomlReader {
         String key = split[0].trim();
         key = key.replace("\"", "");
         key = key.replace("'", "");
-        String value = Arrays.stream(split).skip(1).collect(Collectors.joining()).trim();
+        String value = Arrays.stream(split).skip(1).collect(Collectors.joining("=")).trim();
 
         //remove comment
         boolean mustBeEscaped = false;
@@ -349,7 +349,7 @@ public class TomlReader {
         }
     }
 
-    public Set<TomlTable> getTomlMaps() {
+    public List<TomlTable> getTomlMaps() {
         return toml.getTomlTables();
     }
 
