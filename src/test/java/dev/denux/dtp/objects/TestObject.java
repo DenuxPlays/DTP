@@ -19,6 +19,8 @@ public class TestObject {
 
     public TestEnum testEnum;
 
+    public String emptyString;
+
     public static class ArrayTester {
         public byte[] array;
         public String[] stringArray;

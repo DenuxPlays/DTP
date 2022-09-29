@@ -47,6 +47,7 @@ public class DTPTest {
         assertEquals("Testing a normal string.", object.normalString);
         assertEquals(multilineString, object.multilineString);
         assertEquals("Some single quotes.", object.singleQuotes);
+        assertEquals("", object.emptyString);
     }
 
     private void booleanTester(TestObject object) {

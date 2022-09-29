@@ -90,6 +90,7 @@ public class TomlReader {
                 stringIndicator = multilineReader.stringIndicator;
             }
             if (isString(value) && multilineReader == null) {
+                System.out.println("line = " + line);
                 tomlTable.put(key, handleString(value.toCharArray(), stringIndicator), TomlDataType.STRING);
                 continue;
             }
@@ -262,6 +263,8 @@ public class TomlReader {
     }
 
     private boolean isString(String value) {
+        //represents empty strings
+        if (value.equals("\"\"\"\"")) return true;
         if (value.length() == 0) return false;
         return Constant.STRING_INDICATORS.contains(value.charAt(0)) && !isMultilineString(value);
     }

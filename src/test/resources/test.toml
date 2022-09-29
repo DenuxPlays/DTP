@@ -13,6 +13,8 @@ falseBoolean = false
 
 testEnum = "SUPER"
 
+emptyString = ""
+
 [testClass]
 className = "Echter Klassen Name"
 zahl = 4
