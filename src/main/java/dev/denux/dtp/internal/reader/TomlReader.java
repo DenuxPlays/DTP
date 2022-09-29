@@ -90,7 +90,6 @@ public class TomlReader {
                 stringIndicator = multilineReader.stringIndicator;
             }
             if (isString(value) && multilineReader == null) {
-                System.out.println("line = " + line);
                 tomlTable.put(key, handleString(value.toCharArray(), stringIndicator), TomlDataType.STRING);
                 continue;
             }
