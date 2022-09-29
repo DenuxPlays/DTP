@@ -217,6 +217,9 @@ public class TomlReader {
         //looping through each char of the string
         //starting at 1 because we don't want to have the string indicator inside the actual string value
         boolean endDefined = false;
+        if (chars.length == 2) {
+            return "";
+        }
         for (int i = 1; i < chars.length; i++) {
             char c = chars[i];
             char previousChar = chars[i-1];
