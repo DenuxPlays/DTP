@@ -1,11 +1,10 @@
-package dev.denux.dtp.utils;
+package dev.denux.dtp.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TypesUtil {
-    private TypesUtil() {
-    }
+    private TypesUtil() {}
 
     public static Object convertType(String value) {
         if (isNumber(value)) {

@@ -1,6 +1,6 @@
 package dev.denux.dtp.internal.reader;
 
-import dev.denux.dtp.utils.Constant;
+import dev.denux.dtp.util.Constant;
 
 public class ArrayReader {
 

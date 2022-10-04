@@ -1,8 +1,8 @@
 package dev.denux.dtp.internal.writer;
 
 import dev.denux.dtp.exception.write.TomlWriteException;
-import dev.denux.dtp.utils.ArrayUtil;
-import dev.denux.dtp.utils.PrimitiveUtil;
+import dev.denux.dtp.util.ArrayUtil;
+import dev.denux.dtp.util.PrimitiveUtil;
 
 import java.lang.reflect.Field;
 import java.time.temporal.TemporalAccessor;

@@ -1,6 +1,6 @@
 package dev.denux.dtp.internal.parser;
 
-import dev.denux.dtp.utils.PrimitiveUtil;
+import dev.denux.dtp.util.PrimitiveUtil;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package dev.denux.dtp.utils;
+package dev.denux.dtp.util;
 
 import java.util.Arrays;
 import java.util.List;

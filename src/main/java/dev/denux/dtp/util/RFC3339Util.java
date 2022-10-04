@@ -1,4 +1,4 @@
-package dev.denux.dtp.utils;
+package dev.denux.dtp.util;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -9,9 +9,17 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 
+/**
+ * A utility class that contains methods to handle the RFC3339 date-time standard.
+ */
 public class RFC3339Util {
     private RFC3339Util() {}
 
+    /**
+     * Converts a given RFC3339 {@link String} to and {@link LocalDateTime} object.
+     * @param str the {@link String} you want to parse.
+     * @return the {@link LocalDateTime} object.
+     */
     public static LocalDateTime parseDateTime(String str) {
         Matcher matcher = Constant.RFC3339_REGEX.matcher(str);
         if (!matcher.matches()) {
@@ -60,6 +68,11 @@ public class RFC3339Util {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneOffset.UTC);
     }
 
+    /**
+     * Converts a given RFC3339 {@link String} to and {@link LocalTime} object.
+     * @param str the {@link String} you want to parse.
+     * @return the {@link LocalTime} object.
+     */
     public static LocalTime parseTime(String str) {
         Matcher matcher = Constant.RFC3339_TIME_REGEX.matcher(str);
         if (!matcher.matches()) {

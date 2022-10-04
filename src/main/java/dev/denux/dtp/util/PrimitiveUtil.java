@@ -1,7 +1,17 @@
-package dev.denux.dtp.utils;
+package dev.denux.dtp.util;
 
+/**
+ * A utility class that contains useful methods regarding primitive types.
+ */
 public class PrimitiveUtil {
 
+    private PrimitiveUtil() {}
+
+    /**
+     * Wraps a primitive type to their wrapper class.
+     * @param clazz the {@link Class} you want to wrap.
+     * @return the wrapper class or the given class if they is no wrapper class for it.
+     */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> wrap(Class<T> clazz) {
         if (clazz == int.class) return (Class<T>) Integer.class;
