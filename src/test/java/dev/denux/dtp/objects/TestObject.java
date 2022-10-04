@@ -13,13 +13,12 @@ public class TestObject {
     public String normalString;
     public String multilineString;
     public String singleQuotes;
+    public String emptyString;
 
     public boolean trueBoolean;
     public boolean falseBoolean;
 
     public TestEnum testEnum;
-
-    public String emptyString;
 
     public static class ArrayTester {
         public byte[] array;
