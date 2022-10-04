@@ -39,6 +39,7 @@ public class DTP {
      * @param <T>        The object that will be returned.
      * @return the object or null if there was an exception while reading or serializing.
      */
+    @Nullable
     public <T> T fromToml(@Nonnull String tomlString, @Nonnull Class<T> clazzOfT) {
         TomlReader tomlReader = new TomlReader(tomlString);
         return fromToml(tomlReader, clazzOfT);
@@ -52,6 +53,7 @@ public class DTP {
      * @param <T>        The object that will be returned.
      * @return the object or null if there was an exception while reading or serializing.
      */
+    @Nullable
     public <T> T fromToml(@Nonnull TomlReader tomlReader, @Nonnull Class<T> clazzOfT) {
         try {
             return new TomlParser<>(clazzOfT, tomlReader).parse();
@@ -67,6 +69,7 @@ public class DTP {
      * @param source the {@link Object} you want to deserialize.
      * @return the {@link String} or null if there was an exception while writing.
      */
+    @Nullable
     public String toToml(@Nonnull Object source) {
         return toToml(new TomlWriter(source));
     }
@@ -76,6 +79,7 @@ public class DTP {
      * @param writer the {@link TomlWriter} that writes an object to a {@link String}.
      * @return the {@link String} or null if there was an exception while writing.
      */
+    @Nullable
     public String toToml(@Nonnull TomlWriter writer) {
         return writer.writeToString();
     }
@@ -97,8 +101,14 @@ public class DTP {
      * @param path the {@link Path} you want to write the {@link File} to.
      * @param openOptions {@link OpenOption}s that describes how an existing file should be handled.
      * @throws IOException is thrown when the file could not be written.
+     * @throws NullPointerException is thrown if the given {@link Object} could not be deserialized to a toml string.
      */
     public void writeTomlToFile(@Nonnull Object source, @Nonnull Path path, @Nullable OpenOption... openOptions) throws IOException {
-        Files.write(path, toToml(source).getBytes(StandardCharsets.UTF_8), openOptions);
+        String tomlString = toToml(source);
+        if (tomlString != null) {
+            Files.write(path, tomlString.getBytes(StandardCharsets.UTF_8), openOptions);
+        } else {
+            throw new NullPointerException("Could not get deserialize the given object to a toml string.");
+        }
     }
 }
