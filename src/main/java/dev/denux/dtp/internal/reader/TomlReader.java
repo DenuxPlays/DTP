@@ -1,12 +1,12 @@
 package dev.denux.dtp.internal.reader;
 
+import dev.denux.dtp.exception.TomlReadException;
 import dev.denux.dtp.internal.entities.Toml;
 import dev.denux.dtp.internal.entities.TomlDataType;
 import dev.denux.dtp.internal.entities.TomlTable;
-import dev.denux.dtp.util.RFC3339Util;
-import dev.denux.dtp.exception.TomlReadException;
 import dev.denux.dtp.util.ArrayUtil;
 import dev.denux.dtp.util.Constant;
+import dev.denux.dtp.util.RFC3339Util;
 import dev.denux.dtp.util.TypesUtil;
 
 import java.io.BufferedReader;
