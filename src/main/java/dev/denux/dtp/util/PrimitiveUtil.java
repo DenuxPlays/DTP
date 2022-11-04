@@ -1,5 +1,7 @@
 package dev.denux.dtp.util;
 
+import javax.annotation.Nonnull;
+
 /**
  * A utility class that contains useful methods regarding primitive types.
  */
@@ -10,10 +12,10 @@ public class PrimitiveUtil {
     /**
      * Wraps a primitive type to their wrapper class.
      * @param clazz the {@link Class} you want to wrap.
-     * @return the wrapper class or the given class if they is no wrapper class for it.
+     * @return the wrapper class or the given class if they are no wrapper class for it.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Class<T> wrap(Class<T> clazz) {
+    public static <T> @Nonnull Class<T> wrap(@Nonnull Class<T> clazz) {
         if (clazz == int.class) return (Class<T>) Integer.class;
         if (clazz == float.class) return (Class<T>) Float.class;
         if (clazz == byte.class) return (Class<T>) Byte.class;

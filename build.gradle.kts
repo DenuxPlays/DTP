@@ -7,15 +7,25 @@ buildscript {
 plugins {
     java
     `maven-publish`
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 group = "dev.denux"
 val archivesBaseName = "dtp"
-version = "1.0.0-alpha.1"
+version = "1.0.0-alpha.1.1"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
 }
 
 publishing {
@@ -43,7 +53,30 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }
 
-tasks.withType<Test>{ useJUnitPlatform() }
+val jar: Jar by tasks
+val javadoc: Javadoc by tasks
+val build: Task by tasks
+
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
+}
+
+val javadocJar = task<Jar>("javadocJar") {
+    dependsOn(javadoc)
+    archiveClassifier.set("javadoc")
+    from(javadoc.destinationDir)
+}
+
+javadoc.apply {
+    options.memberLevel = JavadocMemberLevel.PUBLIC
+    options.encoding = "UTF-8"
+}
+
+build.apply {
+    dependsOn(jar)
+    dependsOn(javadocJar)
 }
