@@ -1,11 +1,6 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 plugins {
     java
+    signing
     `maven-publish`
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
@@ -17,27 +12,6 @@ version = "1.0.0-alpha.1.1"
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-        }
-    }
-}
-
-publishing {
-    publications {
-        register("Release", MavenPublication::class) {
-            from(components["java"])
-
-            artifactId = archivesBaseName
-            groupId = group as String
-            version = version as String
-        }
-    }
 }
 
 repositories {
@@ -79,4 +53,78 @@ javadoc.apply {
 build.apply {
     dependsOn(jar)
     dependsOn(javadocJar)
+}
+
+////////////////////////////////////////
+////////////////////////////////////////
+////                                ////
+////     Publishing And Signing     ////
+////                                ////
+////////////////////////////////////////
+////////////////////////////////////////
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+publishing {
+    publications {
+        register("Release", MavenPublication::class) {
+            from(components["java"])
+
+            pom {
+                packaging = "jar"
+                name.set(project.name)
+                description.set("A Java serialization/deserialization library to convert Java Objects into TOML and vice-versa.")
+                url.set("https://github.com/DenuxPlays/DTP")
+
+                scm {
+                    url.set("https://github.com/DenuxPlays/DTP")
+                    connection.set("scm:git:git://github.com/DenuxPlays/DTP")
+                    developerConnection.set("scm:git:ssh:git@github.com:DenuxPlays/DTP")
+                }
+
+                licenses {
+                    license {
+                        name.set("The Apache Software License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        distribution.set("repo")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("Denux")
+                        name.set("Timon Thomas Klinkert")
+                        email.set("dev@denux.dev")
+                    }
+                }
+            }
+
+            artifactId = archivesBaseName
+            groupId = group as String
+            version = version as String
+
+            artifact(javadocJar)
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
+
+signing {
+    isRequired = true
+    useGpgCmd()
+    sign(publishing.publications)
+//    sign(publishing.publications.getByName("Release"))
+    sign(configurations.archives.get())
 }

@@ -4,6 +4,7 @@
 #Gradle
 .gradle/
 build/
+gradle.properties
 
 #Test
 test.toml
