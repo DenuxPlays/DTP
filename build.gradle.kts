@@ -61,6 +61,8 @@ build.apply {
     dependsOn(javadocJar)
 }
 
+fun getProjectProperty(name: String) = project.properties[name] as? String
+
 ////////////////////////////////////////
 ////////////////////////////////////////
 ////                                ////
@@ -79,6 +81,13 @@ publishing {
     publications {
         register("Release", MavenPublication::class) {
             from(components["java"])
+
+            artifactId = archivesBaseName
+            groupId = group as String
+            version = version as String
+
+            artifact(javadocJar)
+            artifact(sourcesJar)
 
             pom {
                 packaging = "jar"
@@ -108,16 +117,11 @@ publishing {
                     }
                 }
             }
-
-            artifactId = archivesBaseName
-            groupId = group as String
-            version = version as String
-
-            artifact(javadocJar)
-            artifact(sourcesJar)
         }
     }
 }
+
+//val ossrhConfigured: Boolean = getProjectProperty("ossrhUser") != null
 
 nexusPublishing {
     repositories {
@@ -128,8 +132,26 @@ nexusPublishing {
     }
 }
 
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-    sign(configurations.archives.get())
+// Turn off sign tasks if we don't have a key
+val canSign: Boolean = getProjectProperty("signing.keyId") != null
+if (canSign) {
+    signing {
+        useGpgCmd()
+        sign(publishing.publications)
+        sign(configurations.archives.get())
+    }
+}
+
+tasks.create("release") {
+    // Only close repository after release is published
+    val closeSonatypeStagingRepository by tasks
+    closeSonatypeStagingRepository.mustRunAfter(tasks.withType<PublishToMavenRepository>())
+    dependsOn(tasks.withType<PublishToMavenRepository>())
+
+    // Closes the sonatype repository and publishes to maven central
+    val closeAndReleaseSonatypeStagingRepository: Task by tasks
+    dependsOn(closeAndReleaseSonatypeStagingRepository)
+
+    // Builds all jars for publications
+    dependsOn(build)
 }
