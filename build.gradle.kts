@@ -23,8 +23,8 @@ dependencies {
     //Javax annotations
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
 }
 
 val jar: Jar by tasks
@@ -45,7 +45,7 @@ val javadocJar = task<Jar>("javadocJar") {
     from(javadoc.destinationDir)
 }
 
-//Needed for some reason
+//Needed for some reason by maven central
 val sourcesJar = task<Jar>("sourcesJar") {
     archiveClassifier.set("sources")
     from("src/main/java")
@@ -89,6 +89,7 @@ publishing {
             artifact(javadocJar)
             artifact(sourcesJar)
 
+            //Creating the pom required for maven central
             pom {
                 packaging = "jar"
                 name.set(archivesBaseName)
