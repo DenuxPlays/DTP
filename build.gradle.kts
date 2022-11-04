@@ -45,6 +45,12 @@ val javadocJar = task<Jar>("javadocJar") {
     from(javadoc.destinationDir)
 }
 
+//Needed for some reason
+val sourcesJar = task<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from("src/main/java")
+}
+
 javadoc.apply {
     options.memberLevel = JavadocMemberLevel.PUBLIC
     options.encoding = "UTF-8"
@@ -76,7 +82,7 @@ publishing {
 
             pom {
                 packaging = "jar"
-                name.set(project.name)
+                name.set(archivesBaseName)
                 description.set("A Java serialization/deserialization library to convert Java Objects into TOML and vice-versa.")
                 url.set("https://github.com/DenuxPlays/DTP")
 
@@ -108,6 +114,7 @@ publishing {
             version = version as String
 
             artifact(javadocJar)
+            artifact(sourcesJar)
         }
     }
 }
@@ -122,9 +129,7 @@ nexusPublishing {
 }
 
 signing {
-    isRequired = true
     useGpgCmd()
     sign(publishing.publications)
-//    sign(publishing.publications.getByName("Release"))
     sign(configurations.archives.get())
 }
