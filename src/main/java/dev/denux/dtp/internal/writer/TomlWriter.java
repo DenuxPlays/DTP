@@ -63,6 +63,8 @@ public class TomlWriter {
                     } else {
                         arrayAsString = Arrays.deepToString((Object[]) fieldObj);
                     }
+                    //solves issue where an array is always one n above their actual type.
+                    arrayAsString = arrayAsString.substring(1, arrayAsString.length() - 1);
                     handleOther(field, arrayAsString, builder);
                 } else if (typeIsClazz(clazz)) {
                     subClasses.put(clazz, field);
