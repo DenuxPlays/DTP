@@ -85,19 +85,29 @@ public class TomlWriter {
             }
         }
         try {
-            builder.append("\n");
             Set<Map.Entry<Class<?>, Field>> entrySet = subClasses.entrySet();
+            int i = 0;
             for (Map.Entry<Class<?>, Field> entry : entrySet) {
+                i++;
                 Class<?> clazz = entry.getKey();
                 Field field = entry.getValue();
                 if (clazz.getDeclaredFields().length != 0) {
-                    builder.append("\n").append("[").append(field.getName()).append("]").append("\n");
+                    if (i == 1) {
+                        if (!builder.toString().isEmpty()) {
+                            builder.append("\n").append("\n");
+                        }
+                    }
+                    builder.append("[").append(field.getName()).append("]").append("\n");
                     builder.append(new TomlWriter(field.get(object), true).writeToString());
+                    if (i != entrySet.size()) {
+                        builder.append("\n").append("\n");
+                    }
                 }
             }
         } catch (IllegalAccessException exception) {
             exception.printStackTrace();
         }
+        //builder.deleteCharAt(builder.lastIndexOf("\n"));
         return builder.toString();
     }
 

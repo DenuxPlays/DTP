@@ -3,7 +3,6 @@ package dev.denux.dtp.objects;
 import java.time.Instant;
 
 public class WriteObject {
-
     private final WriteClass writeClass = new WriteClass();
     private final SecondClass secondClass = new SecondClass();
 
