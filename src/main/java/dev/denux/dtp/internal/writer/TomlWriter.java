@@ -66,7 +66,7 @@ public class TomlWriter {
                     //solves issue where an array is always one n above their actual type.
                     arrayAsString = arrayAsString.substring(1, arrayAsString.length() - 1);
                     handleOther(field, arrayAsString, builder);
-                } else if (typeIsClazz(clazz)) {
+                } else if (typeIsUsableClazz(clazz)) {
                     subClasses.put(clazz, field);
                     continue;
                 }
@@ -78,10 +78,8 @@ public class TomlWriter {
             }
         }
         try {
+            builder.append("\n");
             Set<Map.Entry<Class<?>, Field>> entrySet = subClasses.entrySet();
-            if (entrySet.size() != 0) {
-                builder.append("\n");
-            }
             for (Map.Entry<Class<?>, Field> entry : entrySet) {
                 Class<?> clazz = entry.getKey();
                 Field field = entry.getValue();
@@ -96,7 +94,7 @@ public class TomlWriter {
         return builder.toString();
     }
 
-    private boolean typeIsClazz(Class<?> clazz) {
+    private boolean typeIsUsableClazz(Class<?> clazz) {
         for (Class<?> subClass : subClasses) {
             subClass = PrimitiveUtil.wrap(subClass);
             if (subClass.equals(clazz)) {

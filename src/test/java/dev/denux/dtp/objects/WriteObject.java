@@ -5,6 +5,7 @@ import java.time.Instant;
 public class WriteObject {
 
     private final WriteClass writeClass = new WriteClass();
+    private final SecondClass secondClass = new SecondClass();
 
     private final String testString = "Hallo welt";
     private int integer;
@@ -17,5 +18,9 @@ public class WriteObject {
         private final Instant instant = Instant.now();
         private final int[] intArray = new int[]{1, 2, 3};
         private final float[][] doubleIntArray = new float[][]{{2F,3F,4F}, {3F,4F,5F}};
+    }
+
+    private static class SecondClass {
+        private final String thirdString = "LMAO";
     }
 }
