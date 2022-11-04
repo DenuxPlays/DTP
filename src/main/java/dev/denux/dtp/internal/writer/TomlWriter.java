@@ -17,10 +17,17 @@ public class TomlWriter {
 
     private final Object object;
     private final Class<?>[] subClasses;
+    private boolean subClass = false;
 
     public TomlWriter(Object object) {
         this.object = object;
         subClasses = object.getClass().getDeclaredClasses();
+    }
+
+    public TomlWriter(Object object, boolean subClass) {
+        this.object = object;
+        subClasses = object.getClass().getDeclaredClasses();
+        this.subClass = subClass;
     }
 
     public String writeToString() {
@@ -70,11 +77,11 @@ public class TomlWriter {
                     subClasses.put(clazz, field);
                     continue;
                 }
+                if (i != fields.length - 1) {
+                    builder.append("\n");
+                }
             } catch (IllegalAccessException exception) {
                 exception.printStackTrace();
-            }
-            if (i != fields.length - 1) {
-                builder.append("\n");
             }
         }
         try {
@@ -85,7 +92,7 @@ public class TomlWriter {
                 Field field = entry.getValue();
                 if (clazz.getDeclaredFields().length != 0) {
                     builder.append("\n").append("[").append(field.getName()).append("]").append("\n");
-                    builder.append(new TomlWriter(field.get(object)).writeToString());
+                    builder.append(new TomlWriter(field.get(object), true).writeToString());
                 }
             }
         } catch (IllegalAccessException exception) {
@@ -105,13 +112,17 @@ public class TomlWriter {
     }
 
     private void handleString(Field field, Object fieldObject, StringBuilder builder) {
-        String str = String.format("%s = \"%s\"", field.getName(), fieldObject.toString());
-        builder.append(str);
+        fieldObject = String.format("\"%s\"", fieldObject.toString());
+        handleOther(field, fieldObject, builder);
     }
 
     private void handleOther(Field field, Object fieldObject, StringBuilder builder) {
         String str = String.format("%s = %s", field.getName(), fieldObject.toString());
-        builder.append(str);
+        if (subClass) {
+            builder.append("\t").append(str);
+        } else {
+            builder.append(str);
+        }
     }
 
     private void handleNumber(Field field, Object fieldObject, StringBuilder builder) {
