@@ -1,4 +1,5 @@
 [![Maven Central](https://img.shields.io/maven-central/v/dev.denux/dtp.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22dev.denux%22%20AND%20a:%22dtp%22)
+[![javadocs](https://javadoc.io/badge2/dev.denux/dtp/javadoc.svg)](https://javadoc.io/doc/dev.denux/dtp)
 [![](https://jitpack.io/v/DenuxPlays/DTP.svg)](https://jitpack.io/#DenuxPlays/DTP)
 # Denux' TOML Parser (DTP) 
 
