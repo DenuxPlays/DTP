@@ -7,7 +7,7 @@ plugins {
 
 group = "dev.denux"
 val archivesBaseName = "dtp"
-version = "1.0.0-alpha.1.1"
+version = "1.0.0-alpha.2"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -127,6 +127,7 @@ publishing {
 nexusPublishing {
     repositories {
         sonatype {
+            //nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"))
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
