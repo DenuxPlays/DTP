@@ -2,7 +2,7 @@ plugins {
     java
     signing
     `maven-publish`
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
 group = "dev.denux"
@@ -23,8 +23,8 @@ dependencies {
     //Javax annotations
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.3")
 }
 
 val jar: Jar by tasks
