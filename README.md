@@ -4,7 +4,8 @@
 # Denux' TOML Parser (DTP) 
 
 DTP is a (dependency free) java library that can be used to convert TOML files to java objects and vice versa. It's based on the 
-TOML v1.0.0 specification.
+TOML v1.0.0 specification.<br>
+[Javadocs](https://denuxplays.github.io/DTP/)
 
 :information_source: DTP is currently in alpha and is not yet ready for production use.
 
