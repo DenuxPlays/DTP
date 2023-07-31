@@ -5,6 +5,8 @@ import dev.denux.dtp.util.ArrayUtil;
 import dev.denux.dtp.util.PrimitiveUtil;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,19 +38,23 @@ public class TomlWriter {
         Map<Class<?>, Field> subClasses = new HashMap<>();
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
+            if (Modifier.isStatic(field.getModifiers()))
+                continue;
             try {
                 field.setAccessible(true);
                 Class<?> clazz = PrimitiveUtil.wrap(field.getType());
                 Object fieldObj = field.get(object);
                 if (fieldObj == null) {
                     try {
-                        fieldObj = clazz.newInstance();
+                        clazz.getConstructor().newInstance();
                     } catch (InstantiationException exception) {
                         throw new TomlWriteException(String.format("Due to the value of %s " +
                                 "being null we tried to create a new instance of %s but this also" +
                                 "failed. Skipping field.", field.getName(), clazz.getSimpleName()));
-                    }
-                }
+                    } catch (InvocationTargetException | NoSuchMethodException e) {
+						throw new RuntimeException(e);
+					}
+				}
                 if (String.class.equals(clazz)) {
                     handleString(field, fieldObj, builder);
                 } else if (Number.class.isAssignableFrom(clazz)) {
