@@ -1,6 +1,11 @@
 #Jetbrains
 .idea/
 
+#Eclipse
+.classpath
+.project
+.settings/
+
 #Gradle
 .gradle/
 build/

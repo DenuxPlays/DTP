@@ -125,7 +125,7 @@ publishing {
 //val ossrhConfigured: Boolean = getProjectProperty("ossrhUser") != null
 
 nexusPublishing {
-    repositories {
+    this.repositories {
         sonatype {
             //nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"))
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
