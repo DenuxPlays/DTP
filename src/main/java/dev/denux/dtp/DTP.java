@@ -59,7 +59,7 @@ public class DTP {
             return new TomlParser<>(clazzOfT, tomlReader).parse();
         } catch (ReflectiveOperationException exception) {
             throw new TomlParseException("Could not parse the toml to the object.\n " +
-                    "Do .getCause() for more information.", exception);
+                    "Refer to .getCause() for more information.", exception);
         }
     }
 

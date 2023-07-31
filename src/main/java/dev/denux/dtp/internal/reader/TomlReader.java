@@ -23,13 +23,15 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 //TODO add javadocs
 public class TomlReader {
 
     private final Toml toml;
     private final Map<Integer, ArrayReader> arrayReaderMap = new HashMap<>();
 
-    public TomlReader(Reader reader) {
+    public TomlReader(@Nonnull Reader reader) {
         try {
             toml = read(stringToList(readToString(reader)));
         } catch (IOException exception) {
@@ -37,7 +39,7 @@ public class TomlReader {
         }
     }
 
-    public TomlReader(String tomlString) {
+    public TomlReader(@Nonnull String tomlString) {
         try {
             this.toml = read(stringToList(tomlString));
         } catch (IOException exception) {
@@ -264,7 +266,7 @@ public class TomlReader {
     private boolean isString(String value) {
         //represents empty strings
         if (value.equals("\"\"\"\"")) return true;
-        if (value.length() == 0) return false;
+        if (value.isEmpty()) return false;
         return Constant.STRING_INDICATORS.contains(value.charAt(0)) && !isMultilineString(value);
     }
 
@@ -278,12 +280,12 @@ public class TomlReader {
     }
 
     private boolean isArray(String value) {
-        if (value.length() == 0) return false;
+        if (value.isEmpty()) return false;
         return value.charAt(0) == '[' && value.charAt(value.length() - 1) == ']' && !isMultilineArray(value);
     }
 
     private boolean isMultilineArray(String value) {
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             return false;
         } else if (value.charAt(0) == '[') {
             return value.charAt(value.length() - 1) != ']';
@@ -356,10 +358,6 @@ public class TomlReader {
 
     public List<TomlTable> getTomlMaps() {
         return toml.getTomlTables();
-    }
-
-    public Toml getToml() {
-        return toml;
     }
 
     public ArrayReader getArrayReaderByMapKey(int mapKey) {
