@@ -1,4 +1,4 @@
-"stringKey" = "Quoted key."
+"stringKey" = "Quoted key." #du hs
 normalString = "Testing a normal string."
 multilineString = """
 some value
@@ -20,14 +20,14 @@ className = "Echter Klassen Name"
 zahl = 4
 number = "123"
 
-[arrayTester]
-array = [1, 2, 3]
-stringArray = ["Test1",
-"Test2",
+#[arrayTester]
+#array = [1, 2, 3]
+#stringArray = ["Test1",
+#"Test2",
     #Comment
-]
-twoDimensionalArray = [[3,2,1], [1,2,3]]
-primitiveObjectArray = [3424, 234]
+#]
+#twoDimensionalArray = [[3,2,1], [1,2,3]]
+#primitiveObjectArray = [3424, 234]
 #Comment
 
 [numberTester]

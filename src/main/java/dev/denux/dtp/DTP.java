@@ -41,7 +41,7 @@ public class DTP {
      */
     @Nullable
     public <T> T fromToml(@Nonnull String tomlString, @Nonnull Class<T> clazzOfT) {
-        TomlReader tomlReader = new TomlReader(tomlString);
+        TomlReader tomlReader = new TomlReader(tomlString.lines());
         return fromToml(tomlReader, clazzOfT);
     }
 

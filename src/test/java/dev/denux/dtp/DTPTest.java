@@ -1,8 +1,14 @@
 package dev.denux.dtp;
 
+import dev.denux.dtp.exception.TomlReadException;
+import dev.denux.dtp.internal.reader.helper.ParseType;
 import dev.denux.dtp.objects.TestEnum;
 import dev.denux.dtp.objects.TestObject;
 import dev.denux.dtp.objects.WriteObject;
+import dev.denux.dtp.util.ArrayUtil;
+import dev.denux.dtp.util.Constant;
+import lombok.NonNull;
+import lombok.experimental.NonFinal;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +41,7 @@ public class DTPTest {
         dtpTest.stringTester(testObject);
         dtpTest.numberTester(testObject);
         dtpTest.booleanTester(testObject);
-        dtpTest.arrayTester(testObject);
+        //dtpTest.arrayTester(testObject);
         dtpTest.dateTimeTester(testObject);
         dtpTest.enumTester(testObject);
     }

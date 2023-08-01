@@ -24,9 +24,6 @@ public class TomlTable {
     }
 
     public void put(String key, Object value, TomlDataType type) {
-        if (get(key) != null) {
-            throw new TomlTableException("Key already exists: " + key);
-        }
         put(new Entry(key, value, type));
     }
 
