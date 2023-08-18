@@ -11,6 +11,7 @@ import dev.denux.dtp.util.Constant;
 import dev.denux.dtp.util.Pair;
 import dev.denux.dtp.util.RFC3339Util;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,6 +28,7 @@ import java.util.stream.Stream;
 
 //TODO docs
 @Getter
+@Setter
 public class TomlReader {
 
 	private final Toml toml;
@@ -121,14 +123,41 @@ public class TomlReader {
 		char escapeSequence = str.charAt(0);
 		String endSequence = String.format("%c%c%c", escapeSequence, escapeSequence, escapeSequence);
 		String finalStr = str;
-		while (i.get() + 1 < lines.size()) {
-			String line = lines.get(i.getAndIncrement());
+		while (i.getAndIncrement() + 1 < lines.size()) {
+			String line = lines.get(i.get());
 			finalStr = String.join("\n", finalStr, line);
 			if (line.endsWith(endSequence)&& i.get() > currentIndex) {
 				break;
 			}
 		}
 		return ParseHelper.removeMultilineQuotes(finalStr) + "\n";
+	}
+
+	@Nonnull
+	private String readMultilineArray(@Nonnull String str, int currentIndex) {
+		String finalStr = str;
+		int arrayDepth = 0;
+		String escapeSequence = "";
+		boolean breakLoop = false;
+		while (i.getAndIncrement() + 1 < lines.size()) {
+			String line = filterComments(lines.get(i.get())); //check if filterComments actually works here or not
+			String finalLine = "";
+			if (breakLoop) break;
+			for (char c : line.toCharArray()) {
+				if (Constant.STRING_INDICATORS.contains(c)) {
+					//TODO continue here
+				}
+				if (c == '[' && escapeSequence.isEmpty())
+					arrayDepth++;
+				if (c == ']' && arrayDepth - 1 == 0 && i.get() > currentIndex) {
+					breakLoop = true;
+					break;
+				}
+				finalLine = String.join(finalLine, String.valueOf(c));
+			}
+			finalStr = String.join("\n", finalStr, finalLine);
+		}
+		return finalStr;
 	}
 
 	@Nonnull

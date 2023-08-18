@@ -1,7 +1,6 @@
 package dev.denux.dtp.internal.parser;
 
 import dev.denux.dtp.exception.parse.ArrayParseException;
-import dev.denux.dtp.internal.reader.ArrayReader;
 import dev.denux.dtp.internal.reader.TomlReader;
 
 import java.lang.reflect.Array;

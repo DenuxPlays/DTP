@@ -8,8 +8,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO docs
-
 /**
  * A helper class that helps to prepare the value for the parser.
  */
