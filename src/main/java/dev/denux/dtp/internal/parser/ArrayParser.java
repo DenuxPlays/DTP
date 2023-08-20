@@ -1,6 +1,7 @@
 package dev.denux.dtp.internal.parser;
 
 import dev.denux.dtp.exception.parse.ArrayParseException;
+import dev.denux.dtp.internal.reader.ArrayReader;
 import dev.denux.dtp.internal.reader.TomlReader;
 
 import java.lang.reflect.Array;
@@ -42,7 +43,7 @@ public class ArrayParser<T> {
             return;
         }
 
-        String string = arrayReader.getString();
+        String string = arrayReader.getFormattedString();
         field.set(object, parse(string.toCharArray(), field.getType(), new int[]{0}));
     }
 
