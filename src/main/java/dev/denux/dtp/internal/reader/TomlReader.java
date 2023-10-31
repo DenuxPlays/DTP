@@ -143,9 +143,23 @@ public class TomlReader {
 			String line = filterComments(lines.get(i.get())); //check if filterComments actually works here or not
 			String finalLine = "";
 			if (breakLoop) break;
-			for (char c : line.toCharArray()) {
+			for (int j = 0; j < line.length(); j++) {
+				char c = line.charAt(j);
+				char nextChar = j + 1 == line.length() ? ' ' : line.charAt(j + 1);
+				char previousChar = j == 0 ? ' ' : line.charAt(j - 1);
 				if (Constant.STRING_INDICATORS.contains(c)) {
-					//TODO continue here
+					if (escapeSequence.isEmpty()) {
+						escapeSequence = String.valueOf(c);
+					}
+					if (escapeSequence.equals(String.valueOf(c)) && previousChar != '\\') {
+						escapeSequence = "";
+					}
+					//check if this actually works
+					String multilineIndicator = String.format("%c%c%c", c, c, c);
+					if (Constant.MULTILINE_STRING_INDICATORS.contains(multilineIndicator)) {
+						escapeSequence = multilineIndicator;
+					}
+					//TODO more multiline handling
 				}
 				if (c == '[' && escapeSequence.isEmpty())
 					arrayDepth++;
