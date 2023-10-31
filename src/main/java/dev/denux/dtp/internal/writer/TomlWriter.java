@@ -54,6 +54,7 @@ public class TomlWriter {
                     } catch (InvocationTargetException | NoSuchMethodException e) {
 						throw new RuntimeException(e);
 					}
+                    continue;
 				}
                 if (String.class.equals(clazz)) {
                     handleString(field, fieldObj, builder);
