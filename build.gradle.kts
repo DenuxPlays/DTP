@@ -121,7 +121,7 @@ publishing {
                     developer {
                         id.set("Denux")
                         name.set("Timon Thomas Klinkert")
-                        email.set("dev@denux.dev")
+                        email.set("timon.klinkert@denux.dev")
                     }
                 }
             }
@@ -163,4 +163,9 @@ tasks.create("release") {
 
     // Builds all jars for publications
     dependsOn(build)
+}
+
+//Fix for publishing with gradle 8.x
+tasks.withType<PublishToMavenRepository>().configureEach {
+    dependsOn(":signArchives")
 }
