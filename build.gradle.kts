@@ -7,7 +7,7 @@ plugins {
 
 group = "dev.denux"
 val archivesBaseName = "dtp"
-version = "1.0.0-alpha.2"
+version = "1.0.0-alpha.3"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -18,11 +18,11 @@ repositories {
     mavenCentral()
 }
 
-val lombokVersion = "1.18.28"
+val lombokVersion = "1.18.30"
 dependencies {
     //Testing stuff
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 
     //Javax annotations
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
@@ -121,7 +121,7 @@ publishing {
                     developer {
                         id.set("Denux")
                         name.set("Timon Thomas Klinkert")
-                        email.set("dev@denux.dev")
+                        email.set("timon.klinkert@denux.dev")
                     }
                 }
             }
@@ -163,4 +163,9 @@ tasks.create("release") {
 
     // Builds all jars for publications
     dependsOn(build)
+}
+
+//Fix for publishing with gradle 8.x
+tasks.withType<PublishToMavenRepository>().configureEach {
+    dependsOn(":signArchives")
 }
