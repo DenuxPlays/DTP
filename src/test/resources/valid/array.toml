@@ -1,0 +1,43 @@
+integers = [ 1, 2, 3 ]
+colors = [ "red", "yellow", "green" ]
+nested_arrays_of_ints = [ [ 1, 2 ], [3, 4, 5] ]
+nested_mixed_array = [ [ 1, 2 ], ["a", "b", "c"] ]
+string_array = [ "all", 'strings', """are the same""", '''type''' ]
+dates = [
+    1987-07-05T17:45:00Z,
+    1979-05-27T07:32:00Z,
+    2006-06-01T11:00:00Z,
+]
+
+# Mixed-type arrays are allowed
+numbers = [ 0.1, 0.2, 0.5, 1, 2, 5 ]
+contributors = [
+    "Foo Bar <foo@example.com>",
+    { name = "Baz Qux", email = "bazqux@example.com", url = "https://example.com/bazqux" }
+]
+
+integers2 = [
+    1, 2, 3
+]
+
+integers3 = [
+    1,
+    2, # this is ok
+]
+
+combined = [
+    1, 2, 3,
+    4, "five,", """red""", 'green', '''Bla
+    bla,
+    blably\'''
+    blue     hello
+    ''',
+    "blub", [ 0.1, 0.2, 0.3, "samy",
+    "same"],
+    { name = "Definitly not me", email = "not.me@example.com", "blubly" = ""},
+    [{bob = 1}, {bob = 0.1}],
+    [ 1987-07-05T17:45:00Z,
+        1979-05-27T07:32:00Z,
+        2006-06-01T11:00:00Z,],
+    []
+]

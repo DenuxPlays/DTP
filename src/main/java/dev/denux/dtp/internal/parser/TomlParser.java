@@ -25,7 +25,7 @@ public class TomlParser<T> {
 
     @SuppressWarnings("unchecked")
     public T parse() throws ReflectiveOperationException {
-        for (TomlTable tomlMap : tomlReader.getTomlMaps()) {
+        for (TomlTable tomlMap : tomlReader.getToml().getTomlTables()) {
             String tableName = tomlMap.getTableName();
             for (TomlTable.Entry entry : tomlMap.getEntries()) {
                 String key = entry.getKey();

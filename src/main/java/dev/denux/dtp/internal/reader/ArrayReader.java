@@ -2,64 +2,50 @@ package dev.denux.dtp.internal.reader;
 
 import dev.denux.dtp.util.Constant;
 
+import javax.annotation.Nonnull;
+
+//TODO docs
 public class ArrayReader {
 
-    public final StringBuilder builder = new StringBuilder();
+	public final StringBuilder builder = new StringBuilder();
+	public final TomlReader reader;
 
-    public void readArray(String value) {
-        char[] chars = value.toCharArray();
-        boolean needEscaping = false;
-        StringBuilder val = new StringBuilder();
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
-            char previousChar = i == 0 ? ' ' : chars[i - 1];
-            if (!needEscaping) {
-                if (c == '#') {
-                    continue;
-                }
-            }
-            if (Constant.STRING_INDICATORS.contains(c)) {
-                if (previousChar == '\\') {
-                    val.append(c);
-                    continue;
-                }
-                if (!needEscaping) {
-                    needEscaping = true;
-                }
-                val.append(c);
-                continue;
-            }
-            if (c == ',' && !needEscaping && previousChar != '\"') {
-                val.append(c);
-                continue;
-            }
-            if (c != ' ') {
-                val.append(c);
-            }
-        }
-        builder.append(val.toString().trim());
-    }
+	public ArrayReader(@Nonnull TomlReader reader) {
+		this.reader = reader;
+	}
 
-    public String getString() {
-        return builder.toString();
-    }
+	public void readArray(@Nonnull String value) {
+		StringBuilder val = new StringBuilder();
+		boolean needEscaping = false;
+		for (int i = 0; i < value.length(); i++) {
+			char c = value.charAt(i);
+			char previousChar = i == 0 ? ' ' : value.charAt(i - 1);
+			if (!needEscaping && c == '#')
+				continue;
+			if (Constant.STRING_INDICATORS.contains(c)) {
+				if (previousChar == '\\') {
+					val.append(c);
+					continue;
+				}
+				if (!needEscaping) {
+					needEscaping = true;
+				}
+				val.append(c);
+				continue;
+			}
+			if (c == ',' && !needEscaping && previousChar != '\"') {
+				val.append(c);
+				continue;
+			}
+			if (c != ' ') {
+				val.append(c);
+			}
+		}
+		builder.append(val.toString().trim());
+	}
 
-    public static boolean endOfMultilineArray(String line) {
-        char[] chars = line.toCharArray();
-        boolean string = false;
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
-            char previousChar = i == 0 ? ' ' : chars[i - 1];
-            if (Constant.STRING_INDICATORS.contains(c)) {
-                if (!string) string = true;
-                if (previousChar == '\\') continue;
-                string = false;
-                continue;
-            }
-            if (c == ']' && !string) {
-                return true;
-            }
-        }
-        return false;
-    }
+	@Nonnull
+	public String getFormattedString() {
+		return builder.toString();
+	}
 }
