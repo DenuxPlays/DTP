@@ -22,7 +22,7 @@ val lombokVersion = "1.18.34"
 dependencies {
     //Testing stuff
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
 
     //Javax annotations
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
