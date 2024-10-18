@@ -43,7 +43,7 @@ public class ArrayParser<T> {
             return;
         }
 
-        String string = arrayReader.getString();
+        String string = arrayReader.getFormattedString();
         field.set(object, parse(string.toCharArray(), field.getType(), new int[]{0}));
     }
 
